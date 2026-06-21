@@ -134,8 +134,8 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-head">
-      <div class="logo">Interview Trainer</div>
-      <div class="logo-sub">DA & DS Edition</div>
+      <div class="logo" onclick="endSession()" style="cursor:pointer;" title="Back to start">Interview Trainer</div>
+      <div class="logo-sub" onclick="endSession()" style="cursor:pointer;">DA & DS Edition</div>
     </div>
     <div class="nav-group">
       <div class="nav-label">All</div>
@@ -445,32 +445,54 @@ async function toggleMic() {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     S.audioChunks = [];
-    S.mediaRecorder = new MediaRecorder(stream);
 
-    S.mediaRecorder.ondataavailable = e => S.audioChunks.push(e.data);
+    // Pick supported mime type
+    const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
+      ? 'audio/webm;codecs=opus'
+      : MediaRecorder.isTypeSupported('audio/webm')
+      ? 'audio/webm'
+      : MediaRecorder.isTypeSupported('audio/ogg;codecs=opus')
+      ? 'audio/ogg;codecs=opus'
+      : '';
+
+    S.mediaRecorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
+
+    S.mediaRecorder.ondataavailable = e => { if (e.data.size > 0) S.audioChunks.push(e.data); };
 
     S.mediaRecorder.onstop = async () => {
       S.isRecording = false;
       document.getElementById('mic-btn').className = 'mic-btn processing';
       document.getElementById('mic-status').textContent = 'transcribing...';
-
-      const blob = new Blob(S.audioChunks, { type: 'audio/webm' });
       stream.getTracks().forEach(t => t.stop());
 
+      const actualMime = S.mediaRecorder.mimeType || 'audio/webm';
+      const ext = actualMime.includes('ogg') ? 'ogg' : 'webm';
+      const blob = new Blob(S.audioChunks, { type: actualMime });
+
       const form = new FormData();
-      form.append('file', blob, 'audio.webm');
+      form.append('file', blob, `audio.${ext}`);
       form.append('model', 'whisper-large-v3');
       form.append('language', S.lang === 'uk' ? 'uk' : 'en');
+      form.append('response_format', 'json');
 
       try {
-        const res = await fetch('/api/transcribe', { method: 'POST', body: form });
-        const data = await res.json();
-        if (data.text) {
-          document.getElementById('answer-input').value = data.text;
+        // Direct call to Groq — no Vercel function needed
+        const res = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${window.GROQ_KEY}` },
+          body: form,
+        });
+        if (!res.ok) {
+          const err = await res.text();
+          console.error('Whisper error:', err);
+        } else {
+          const data = await res.json();
+          if (data.text) document.getElementById('answer-input').value = data.text;
         }
       } catch(e) {
         console.error('transcribe error', e);
       }
+
       document.getElementById('mic-btn').className = 'mic-btn';
       document.getElementById('mic-status').textContent = 'tap to record';
     };
@@ -605,6 +627,18 @@ function escHtml(str) {
   if (!str) return '';
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
+
+// ═══════════════════════════════════════════════
+// GROQ KEY — injected via /api/config
+// ═══════════════════════════════════════════════
+window.GROQ_KEY = '';
+(async () => {
+  try {
+    const r = await fetch('/api/config');
+    const d = await r.json();
+    window.GROQ_KEY = d.groqKey || '';
+  } catch(e) { console.warn('config fetch failed', e); }
+})();
 
 // ═══════════════════════════════════════════════
 // INIT
