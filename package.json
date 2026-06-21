@@ -1,0 +1,8 @@
+{
+  "name": "interview-trainer-ds",
+  "version": "2.0.0",
+  "description": "Interview Practice Trainer — DA & DS roles",
+  "scripts": {
+    "dev": "vercel dev"
+  }
+}

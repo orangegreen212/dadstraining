@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Interview Trainer — DA & DS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0c0c0e; --bg2: #131316; --bg3: #1c1c21; --bg4: #242429;
+  --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12);
+  --text: #eeede6; --text2: #8a8980; --text3: #4a4a47;
+  --accent: #6c5ce7; --accent2: #a29bfe;
+  --green: #00b894; --amber: #e17055; --red: #d63031;
+  --r: 12px; --r-sm: 8px;
+}
+html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.6; overflow: hidden; }
+
+/* ── LAYOUT ── */
+.layout { display: grid; grid-template-columns: 220px 1fr; height: 100vh; }
+@media (max-width: 640px) { .layout { grid-template-columns: 1fr; } .sidebar { display: none; } }
+
+/* ── SIDEBAR ── */
+.sidebar { background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; }
+.sidebar-head { padding: 22px 20px 18px; border-bottom: 1px solid var(--border); }
+.logo { font-size: 13px; font-weight: 600; }
+.logo-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.nav-group { padding: 14px 12px 0; }
+.nav-label { font-size: 10px; color: var(--text3); text-transform: uppercase; padding: 0 8px; margin-bottom: 5px; letter-spacing: 0.09em; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: var(--r-sm); cursor: pointer; font-size: 13px; color: var(--text2); transition: 0.15s; }
+.nav-item:hover { background: var(--bg3); color: var(--text); }
+.nav-item.active { background: rgba(108,92,231,0.14); color: var(--accent2); }
+.nav-count { margin-left: auto; font-size: 10px; background: var(--bg4); color: var(--text3); padding: 1px 6px; border-radius: 20px; }
+.role-tag { font-size: 9px; padding: 1px 5px; border-radius: 4px; margin-left: auto; }
+.role-da { background: rgba(0,184,148,0.15); color: var(--green); }
+.role-ds { background: rgba(108,92,231,0.15); color: var(--accent2); }
+.role-both { background: rgba(225,112,85,0.15); color: var(--amber); }
+
+/* ── MAIN ── */
+.main { display: flex; flex-direction: column; overflow: hidden; position: relative; }
+
+/* ── START SCREEN ── */
+.start-screen { position: absolute; inset: 0; background: var(--bg); z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center; overflow-y: auto; }
+.start-title { font-size: 22px; font-weight: 600; margin-bottom: 6px; }
+.start-sub { font-size: 13px; color: var(--text2); margin-bottom: 24px; }
+
+.role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 380px; margin-bottom: 16px; }
+.role-tile { background: var(--bg2); border: 2px solid var(--border); border-radius: var(--r); padding: 16px; cursor: pointer; text-align: left; transition: 0.15s; }
+.role-tile:hover { border-color: var(--border2); }
+.role-tile.sel { border-color: var(--accent); background: rgba(108,92,231,0.08); }
+.role-tile-name { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+.role-tile-desc { font-size: 11px; color: var(--text2); }
+
+.cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; max-width: 380px; margin-bottom: 16px; }
+.cat-tile { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 10px 12px; cursor: pointer; font-size: 12px; text-align: left; transition: 0.15s; }
+.cat-tile.sel { border-color: var(--accent); background: rgba(108,92,231,0.08); color: var(--accent2); }
+
+.lang-row { display: flex; gap: 8px; margin-bottom: 20px; }
+.lang-tile { flex: 1; max-width: 90px; padding: 8px; border: 1px solid var(--border); border-radius: var(--r-sm); cursor: pointer; font-size: 13px; font-weight: 600; text-align: center; transition: 0.15s; background: var(--bg2); color: var(--text2); }
+.lang-tile.sel { border-color: var(--accent); background: rgba(108,92,231,0.08); color: var(--accent2); }
+
+.btn-start { padding: 13px 40px; background: var(--accent); color: #fff; border: none; border-radius: var(--r); font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.15s; }
+.btn-start:hover { background: #5a4bd1; }
+
+/* ── TOPBAR ── */
+.topbar { display: flex; align-items: center; padding: 10px 18px; border-bottom: 1px solid var(--border); background: var(--bg2); min-height: 52px; gap: 12px; flex-shrink: 0; }
+.topbar-badge { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+.badge-da { background: rgba(0,184,148,0.15); color: var(--green); }
+.badge-ds { background: rgba(108,92,231,0.15); color: var(--accent2); }
+.btn-end { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 13px; margin-left: auto; padding: 4px 8px; border-radius: 6px; }
+.btn-end:hover { background: var(--bg3); color: var(--text); }
+
+/* ── SESSION ── */
+.session { flex: 1; overflow-y: auto; padding-bottom: 130px; scroll-behavior: smooth; }
+
+.q-card { margin: 14px 16px 0; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 18px; }
+.q-meta { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+.q-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 3px 9px; border-radius: 20px; background: rgba(108,92,231,0.12); color: var(--accent2); }
+.q-text { font-size: 17px; font-weight: 500; line-height: 1.5; }
+
+.fw-bar { margin: 10px 16px; background: var(--bg2); border: 1px solid var(--border); padding: 12px; border-radius: var(--r); }
+.fw-step { font-size: 11px; padding: 4px 11px; border-radius: 20px; border: 1px solid var(--border); color: var(--text3); margin-right: 5px; display: inline-block; margin-bottom: 5px; }
+.fw-step.done { color: var(--green); background: rgba(0,184,148,0.1); border-color: transparent; }
+
+/* ── DIALOG HISTORY ── */
+.dialog-wrap { margin: 0 16px; }
+.bubble { padding: 12px 14px; border-radius: var(--r); margin-bottom: 8px; font-size: 13px; line-height: 1.6; }
+.bubble-user { background: rgba(108,92,231,0.1); border: 1px solid rgba(108,92,231,0.2); }
+.bubble-coach { background: var(--bg2); border: 1px solid var(--border); }
+.bubble-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; }
+.bubble-label-user { color: var(--accent2); }
+.bubble-label-coach { color: var(--amber); }
+.followup-q { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+
+/* ── FEEDBACK ── */
+.feedback-wrap { margin: 10px 16px; display: none; }
+.feedback-wrap.show { display: block; }
+.score-row { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--border); background: var(--bg2); border-radius: var(--r) var(--r) 0 0; }
+.score-cell { padding: 12px; text-align: center; border-right: 1px solid var(--border); }
+.score-cell:last-child { border-right: none; }
+.score-label { font-size: 9px; text-transform: uppercase; color: var(--text3); margin-bottom: 4px; }
+.score-val { font-size: 20px; font-weight: 700; }
+.val-hi { color: var(--green); }
+.val-mid { color: var(--amber); }
+.val-lo { color: var(--red); }
+.feedback-body { background: var(--bg2); border: 1px solid var(--border); border-top: none; border-radius: 0 0 var(--r) var(--r); padding: 15px; font-size: 13px; line-height: 1.7; }
+.ideal-box { margin-top: 14px; padding: 12px; background: rgba(0,184,148,0.07); border: 1px solid rgba(0,184,148,0.2); border-radius: var(--r-sm); }
+.ideal-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--green); margin-bottom: 6px; }
+.btn-next { display: block; width: 100%; margin-top: 12px; padding: 12px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r-sm); color: var(--text2); font-size: 13px; font-weight: 600; cursor: pointer; text-align: center; transition: 0.15s; }
+.btn-next:hover { background: var(--bg4); color: var(--text); }
+
+/* ── CONTROLS ── */
+.controls { position: absolute; bottom: 0; left: 0; right: 0; padding: 12px 16px; border-top: 1px solid var(--border); background: var(--bg2); }
+.controls-row { display: flex; gap: 10px; align-items: flex-end; }
+.mic-btn { width: 48px; height: 48px; border-radius: 50%; background: var(--bg3); border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: 0.15s; }
+.mic-btn:hover { background: var(--bg4); }
+.mic-btn.recording { border-color: var(--red); background: rgba(214,48,49,0.15); animation: pulse 1.5s infinite; }
+.mic-btn.processing { border-color: var(--amber); background: rgba(225,112,85,0.1); }
+@keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(214,48,49,0.4)} 70%{box-shadow:0 0 0 10px rgba(214,48,49,0)} 100%{box-shadow:0 0 0 0 rgba(214,48,49,0)} }
+.mic-status { font-size: 10px; color: var(--text3); text-align: center; margin-top: 3px; }
+.answer-input { flex: 1; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 12px; color: #fff; resize: none; min-height: 48px; max-height: 120px; font-family: 'Inter', sans-serif; font-size: 13px; }
+.answer-input:focus { outline: none; border-color: var(--border2); }
+.submit-btn { height: 48px; padding: 0 20px; background: var(--accent); color: #fff; border: none; border-radius: var(--r-sm); font-weight: 600; cursor: pointer; flex-shrink: 0; transition: 0.15s; }
+.submit-btn:hover { background: #5a4bd1; }
+.submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.divider { font-size: 11px; color: var(--text3); margin: 14px 16px 0; padding-top: 4px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-head">
+      <div class="logo">Interview Trainer</div>
+      <div class="logo-sub">DA & DS Edition</div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">All</div>
+      <div class="nav-item active" onclick="navTo('all')">⚡ All Questions <span class="nav-count" id="cnt-all">0</span></div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Data Analyst</div>
+      <div class="nav-item" onclick="navTo('sql')">🗄 SQL / Python <span class="nav-count" id="cnt-sql">0</span></div>
+      <div class="nav-item" onclick="navTo('product')">💡 Product Cases <span class="nav-count" id="cnt-product">0</span></div>
+      <div class="nav-item" onclick="navTo('behavioral')">🎯 Behavioral <span class="nav-count" id="cnt-behavioral">0</span></div>
+      <div class="nav-item" onclick="navTo('term')">📖 Terminology <span class="nav-count" id="cnt-term">0</span></div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Data Science</div>
+      <div class="nav-item" onclick="navTo('ml')">🤖 ML Concepts <span class="nav-count" id="cnt-ml">0</span></div>
+      <div class="nav-item" onclick="navTo('stats')">📊 Stats & Math <span class="nav-count" id="cnt-stats">0</span></div>
+      <div class="nav-item" onclick="navTo('ds-case')">🧪 DS Cases <span class="nav-count" id="cnt-ds-case">0</span></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- START SCREEN -->
+    <div id="start-screen" class="start-screen">
+      <div class="start-title">Ready to practice?</div>
+      <div class="start-sub">Choose your role, category, and language</div>
+
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;align-self:flex-start;max-width:380px;width:100%;">Role</div>
+      <div class="role-grid">
+        <div class="role-tile sel" id="role-da" onclick="selectRole('da')">
+          <div class="role-tile-name">Data Analyst</div>
+          <div class="role-tile-desc">Revenue, Product, SQL, Behavioral</div>
+        </div>
+        <div class="role-tile" id="role-ds" onclick="selectRole('ds')">
+          <div class="role-tile-name">Data Scientist</div>
+          <div class="role-tile-desc">ML, Stats, DS Cases</div>
+        </div>
+      </div>
+
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;align-self:flex-start;max-width:380px;width:100%;">Category</div>
+      <div class="cat-grid" id="cat-grid">
+        <!-- filled by JS based on role -->
+      </div>
+
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;align-self:flex-start;max-width:380px;width:100%;">Language</div>
+      <div class="lang-row">
+        <div class="lang-tile sel" id="lang-en" onclick="selectLang('en')">EN</div>
+        <div class="lang-tile" id="lang-uk" onclick="selectLang('uk')">УК</div>
+      </div>
+
+      <button class="btn-start" onclick="startSession()">Start Session →</button>
+    </div>
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <span id="topbar-badge" class="topbar-badge badge-da">DA</span>
+      <span id="topbar-cat" style="font-size:13px;color:var(--text2);">All Questions</span>
+      <button class="btn-end" onclick="endSession()">✕ End</button>
+    </div>
+
+    <!-- SESSION CONTENT -->
+    <div class="session" id="session">
+      <div class="q-card">
+        <div class="q-meta">
+          <span class="q-badge" id="q-badge">—</span>
+        </div>
+        <div class="q-text" id="q-text">Select a category to start</div>
+      </div>
+      <div class="fw-bar" id="fw-bar">
+        <div class="nav-label" id="fw-label">Framework</div>
+        <div id="fw-steps"></div>
+      </div>
+      <div class="dialog-wrap" id="dialog-wrap"></div>
+      <div id="feedback-wrap" class="feedback-wrap">
+        <div class="score-row" id="score-row"></div>
+        <div class="feedback-body" id="feedback-body"></div>
+        <button class="btn-next" onclick="nextQuestion()">→ Next Question</button>
+      </div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="controls">
+      <div class="controls-row">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div class="mic-btn" id="mic-btn" onclick="toggleMic()">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+              <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+              <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+            </svg>
+          </div>
+          <div class="mic-status" id="mic-status">tap to record</div>
+        </div>
+        <textarea id="answer-input" class="answer-input" placeholder="Speak or type your answer..."></textarea>
+        <button id="submit-btn" class="submit-btn" onclick="submitAnswer()">Evaluate</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// QUESTION BANK
+// ═══════════════════════════════════════════════
+const QUESTIONS = [
+  // ── DA: SQL / Python ──
+  { id:1, role:'da', type:'sql', level:'junior', en:'Find the 7-day conversion rate. Explain your logic step by step.', uk:'Знайди 7-денну конверсію. Поясни логіку крок за кроком.', framework:'SQL Thinking', steps:['Define grain','Identify event','Choose method','Build logic','Business answer'] },
+  { id:2, role:'da', type:'sql', level:'junior', en:'Calculate average order value per user for the last 30 days.', uk:'Порахуй середній чек на користувача за 30 днів.', framework:'SQL Thinking', steps:['Define grain','Identify event','Choose method','Build logic','Business answer'] },
+  { id:3, role:'da', type:'sql', level:'junior', en:'Funnel analysis: signup → login → first purchase. How do you calculate step-by-step conversion?', uk:'Воронка: реєстрація → логін → перша покупка. Як рахуєш конверсію кожного кроку?', framework:'SQL Thinking', steps:['Define grain','Identify event','Choose method','Build logic','Business answer'] },
+  { id:4, role:'da', type:'sql', level:'junior', en:'Find Day-7 retention. What tables, what logic?', uk:'Day-7 retention. Які таблиці, яка логіка?', framework:'SQL Thinking', steps:['Define grain','Identify event','Choose method','Build logic','Business answer'] },
+  { id:5, role:'da', type:'sql', level:'middle', en:'Find users who made a second purchase within 30 days of their first.', uk:'Знайди юзерів з другою покупкою впродовж 30 днів після першої.', framework:'SQL Thinking', steps:['Define grain','Identify event','Choose method','Build logic','Business answer'] },
+  { id:6, role:'da', type:'sql', level:'middle', en:'Two dashboards show different revenue for the same month. How do you debug it?', uk:'Два дашборди — різний дохід за той самий місяць. Як дебажиш?', framework:'SQL Thinking', steps:['Define grain','Identify event','Choose method','Build logic','Business answer'] },
+  { id:7, role:'da', type:'sql', level:'middle', en:'Calculate MoM revenue growth rate by channel using window functions.', uk:'MoM зростання доходу по каналах. Використай window functions.', framework:'SQL Thinking', steps:['Define grain','Identify event','Choose method','Build logic','Business answer'] },
+  { id:8, role:'da', type:'sql', level:'middle', en:'Top 3 revenue products per country — handle ties correctly.', uk:'Топ-3 продукти за доходом по країнах — правильно обробити ties.', framework:'SQL Thinking', steps:['Define grain','Identify event','Choose method','Build logic','Business answer'] },
+
+  // ── DA: Product Cases ──
+  { id:13, role:'da', type:'product', level:'junior', en:'Revenue dropped 18% WoW. Traffic is stable. Walk me through your investigation.', uk:'Дохід впав на 18% WoW. Трафік стабільний. Поясни розслідування.', framework:'VDSHV', steps:['Validate','Decompose','Segment','Hypothesize','Validate hyp.'] },
+  { id:14, role:'da', type:'product', level:'junior', en:'Conversion dropped from 5% to 3.8%. No releases reported. What do you do?', uk:'Конверсія впала з 5% до 3.8%. Релізів не було. Що робиш?', framework:'VDSHV', steps:['Validate','Decompose','Segment','Hypothesize','Validate hyp.'] },
+  { id:15, role:'da', type:'product', level:'junior', en:'Traffic up 30%, revenue flat. Explain what happened.', uk:'Трафік +30%, дохід не змінився. Поясни що сталося.', framework:'VDSHV', steps:['Validate','Decompose','Segment','Hypothesize','Validate hyp.'] },
+  { id:16, role:'da', type:'product', level:'junior', en:'Monthly churn increased from 4% to 7%. How do you investigate?', uk:'Churn виріс з 4% до 7%. Як розслідуєш?', framework:'VDSHV', steps:['Validate','Decompose','Segment','Hypothesize','Validate hyp.'] },
+  { id:17, role:'da', type:'product', level:'middle', en:'Revenue up and churn up after a pricing change. Analyze the trade-off.', uk:'Після зміни цін дохід виріс і churn виріс. Аналізуй trade-off.', framework:'VDSHV', steps:['Validate','Decompose','Segment','Hypothesize','Validate hyp.'] },
+
+  // ── DA: Behavioral ──
+  { id:23, role:'da', type:'behavioral', level:'junior', en:'Tell me about a mistake you made in your analysis or reporting.', uk:'Розкажи про помилку в аналізі або звітності.', framework:'STAR', steps:['Situation','Task','Action','Result'] },
+  { id:24, role:'da', type:'behavioral', level:'junior', en:'Tell me about a time your analysis changed a business decision.', uk:'Коли твій аналіз змінив бізнес-рішення.', framework:'STAR', steps:['Situation','Task','Action','Result'] },
+  { id:25, role:'da', type:'behavioral', level:'junior', en:'Describe a disagreement with a stakeholder about data or metrics.', uk:'Незгода зі стейкхолдером щодо даних або метрик.', framework:'STAR', steps:['Situation','Task','Action','Result'] },
+  { id:26, role:'da', type:'behavioral', level:'junior', en:'Tell me about explaining a complex analysis to a non-technical audience.', uk:'Як пояснював складний аналіз нетехнічній аудиторії.', framework:'STAR', steps:['Situation','Task','Action','Result'] },
+  { id:51, role:'da', type:'behavioral', level:'junior', en:'What is the project you are most proud of?', uk:'Яким проектом ти найбільше пишаєшся?', framework:'STAR', steps:['Situation','Task','Action','Result'] },
+
+  // ── DA: Terminology ──
+  { id:201, role:'da', type:'term', level:'junior', en:'What is Conversion Rate?', uk:'Що таке коефіцієнт конверсії (Conversion Rate)?', framework:'Term', steps:['Definition','Formula','Business Value','Example'] },
+  { id:203, role:'da', type:'term', level:'junior', en:'What is LTV (Lifetime Value)?', uk:'Що таке LTV?', framework:'Term', steps:['Definition','Calculation','Retention link','LTV:CAC ratio'] },
+  { id:205, role:'da', type:'term', level:'junior', en:'What is Churn Rate?', uk:'Що таке Churn Rate?', framework:'Term', steps:['Definition','Formula','Impact on LTV','Prevention'] },
+  { id:207, role:'da', type:'term', level:'junior', en:'What is MRR (Monthly Recurring Revenue)?', uk:'Що таке MRR?', framework:'Term', steps:['Definition','Importance for SaaS','Growth tracking','Example'] },
+  { id:222, role:'da', type:'term', level:'junior', en:'What is a North Star Metric?', uk:'Що таке North Star Metric?', framework:'Term', steps:['Definition','Selection criteria','Alignment','Examples'] },
+  { id:231, role:'da', type:'term', level:'middle', en:'What is Simpson\'s Paradox?', uk:'Що таке парадокс Сімпсона?', framework:'Stats', steps:['Intuition','Example','Dangers','Segment analysis'] },
+
+  // ── DS: ML Concepts ──
+  { id:301, role:'ds', type:'ml', level:'junior', en:'What is overfitting and how do you prevent it?', uk:'Що таке overfitting і як його запобігти?', framework:'ML Concept', steps:['Definition','Causes','Detection','Prevention'] },
+  { id:302, role:'ds', type:'ml', level:'junior', en:'Explain the bias-variance tradeoff.', uk:'Поясни bias-variance tradeoff.', framework:'ML Concept', steps:['Intuition','Bias','Variance','Tradeoff in practice'] },
+
+  // ── DS: Stats & Math ──
+  { id:401, role:'ds', type:'stats', level:'junior', en:'What is p-value and how do you interpret it?', uk:'Що таке p-value і як його інтерпретувати?', framework:'Stats', steps:['Intuition','H0 and H1','Threshold','Mistakes'] },
+  { id:402, role:'ds', type:'stats', level:'middle', en:'What is the Central Limit Theorem and why does it matter?', uk:'Що таке центральна гранична теорема і чому вона важлива?', framework:'Stats', steps:['Definition','Intuition','Sample size','Applications'] },
+
+  // ── DS: DS Cases ──
+  { id:501, role:'ds', type:'ds-case', level:'junior', en:'How would you build a churn prediction model from scratch?', uk:'Як побудувати модель прогнозування відтоку з нуля?', framework:'ML Pipeline', steps:['Define problem','Data & features','Model choice','Evaluation','Deployment'] },
+  { id:502, role:'ds', type:'ds-case', level:'middle', en:'You trained a model with 95% accuracy but stakeholders are unhappy. Why might this be?', uk:'Модель має 95% accuracy але стейкхолдери незадоволені. Чому?', framework:'ML Evaluation', steps:['Check baseline','Class imbalance','Business metric','Error analysis','Recommendation'] },
+];
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+const S = {
+  role: 'da',
+  category: 'all',
+  lang: 'en',
+  currentQ: null,
+  dialogHistory: [],   // [{user, assistant}]
+  followupCount: 0,
+  isRecording: false,
+  mediaRecorder: null,
+  audioChunks: [],
+};
+
+// Category config per role
+const CAT_CONFIG = {
+  da: [
+    { id:'all', label:'All' },
+    { id:'sql', label:'SQL / Python' },
+    { id:'product', label:'Product Cases' },
+    { id:'behavioral', label:'Behavioral' },
+    { id:'term', label:'Terminology' },
+  ],
+  ds: [
+    { id:'all', label:'All' },
+    { id:'ml', label:'ML Concepts' },
+    { id:'stats', label:'Stats & Math' },
+    { id:'ds-case', label:'DS Cases' },
+    { id:'behavioral', label:'Behavioral' },
+  ]
+};
+
+// ═══════════════════════════════════════════════
+// START SCREEN
+// ═══════════════════════════════════════════════
+function selectRole(r) {
+  S.role = r;
+  document.getElementById('role-da').classList.toggle('sel', r === 'da');
+  document.getElementById('role-ds').classList.toggle('sel', r === 'ds');
+  S.category = 'all';
+  renderCatGrid();
+}
+
+function renderCatGrid() {
+  const grid = document.getElementById('cat-grid');
+  grid.innerHTML = '';
+  CAT_CONFIG[S.role].forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'cat-tile' + (S.category === c.id ? ' sel' : '');
+    div.textContent = c.label;
+    div.onclick = () => {
+      S.category = c.id;
+      document.querySelectorAll('.cat-tile').forEach(el => el.classList.remove('sel'));
+      div.classList.add('sel');
+    };
+    grid.appendChild(div);
+  });
+}
+
+function selectLang(l) {
+  S.lang = l;
+  document.getElementById('lang-en').classList.toggle('sel', l === 'en');
+  document.getElementById('lang-uk').classList.toggle('sel', l === 'uk');
+}
+
+function startSession() {
+  document.getElementById('start-screen').style.display = 'none';
+  updateTopbar();
+  loadQuestion();
+}
+
+function endSession() {
+  document.getElementById('start-screen').style.display = 'flex';
+  S.dialogHistory = [];
+  S.followupCount = 0;
+  document.getElementById('dialog-wrap').innerHTML = '';
+  document.getElementById('feedback-wrap').classList.remove('show');
+}
+
+function navTo(cat) {
+  S.category = cat;
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('start-screen').style.display = 'none';
+  updateTopbar();
+  loadQuestion();
+}
+
+function updateTopbar() {
+  const badge = document.getElementById('topbar-badge');
+  badge.textContent = S.role.toUpperCase();
+  badge.className = 'topbar-badge ' + (S.role === 'da' ? 'badge-da' : 'badge-ds');
+  document.getElementById('topbar-cat').textContent =
+    CAT_CONFIG[S.role].find(c => c.id === S.category)?.label || 'All Questions';
+}
+
+// ═══════════════════════════════════════════════
+// QUESTIONS
+// ═══════════════════════════════════════════════
+function getPool() {
+  let pool = QUESTIONS.filter(q => q.role === S.role || q.type === 'behavioral');
+  if (S.category !== 'all') pool = pool.filter(q => q.type === S.category);
+  return pool;
+}
+
+function loadQuestion() {
+  const pool = getPool();
+  if (!pool.length) { alert('No questions for this selection'); return; }
+  S.currentQ = pool[Math.floor(Math.random() * pool.length)];
+  S.dialogHistory = [];
+  S.followupCount = 0;
+
+  // Render question
+  document.getElementById('q-badge').textContent = S.currentQ.type.toUpperCase();
+  document.getElementById('q-text').textContent = S.currentQ[S.lang] || S.currentQ.en;
+  document.getElementById('fw-label').textContent = S.currentQ.framework || 'Framework';
+
+  const stepsEl = document.getElementById('fw-steps');
+  stepsEl.innerHTML = '';
+  (S.currentQ.steps || []).forEach((s, i) => {
+    const span = document.createElement('span');
+    span.className = 'fw-step';
+    span.id = 'fw-' + i;
+    span.textContent = s;
+    stepsEl.appendChild(span);
+  });
+
+  document.getElementById('dialog-wrap').innerHTML = '';
+  document.getElementById('feedback-wrap').classList.remove('show');
+  document.getElementById('answer-input').value = '';
+
+  updateCounts();
+  document.getElementById('session').scrollTop = 0;
+}
+
+function nextQuestion() { loadQuestion(); }
+
+function updateCounts() {
+  const types = ['sql','product','behavioral','term','ml','stats','ds-case'];
+  document.getElementById('cnt-all').textContent = QUESTIONS.length;
+  types.forEach(t => {
+    const el = document.getElementById('cnt-' + t);
+    if (el) el.textContent = QUESTIONS.filter(q => q.type === t).length;
+  });
+}
+
+// ═══════════════════════════════════════════════
+// AUDIO — Groq Whisper via MediaRecorder
+// ═══════════════════════════════════════════════
+async function toggleMic() {
+  if (S.isRecording) {
+    S.mediaRecorder.stop();
+    return;
+  }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    S.audioChunks = [];
+    S.mediaRecorder = new MediaRecorder(stream);
+
+    S.mediaRecorder.ondataavailable = e => S.audioChunks.push(e.data);
+
+    S.mediaRecorder.onstop = async () => {
+      S.isRecording = false;
+      document.getElementById('mic-btn').className = 'mic-btn processing';
+      document.getElementById('mic-status').textContent = 'transcribing...';
+
+      const blob = new Blob(S.audioChunks, { type: 'audio/webm' });
+      stream.getTracks().forEach(t => t.stop());
+
+      const form = new FormData();
+      form.append('file', blob, 'audio.webm');
+      form.append('model', 'whisper-large-v3');
+      form.append('language', S.lang === 'uk' ? 'uk' : 'en');
+
+      try {
+        const res = await fetch('/api/transcribe', { method: 'POST', body: form });
+        const data = await res.json();
+        if (data.text) {
+          document.getElementById('answer-input').value = data.text;
+        }
+      } catch(e) {
+        console.error('transcribe error', e);
+      }
+      document.getElementById('mic-btn').className = 'mic-btn';
+      document.getElementById('mic-status').textContent = 'tap to record';
+    };
+
+    S.mediaRecorder.start();
+    S.isRecording = true;
+    document.getElementById('mic-btn').className = 'mic-btn recording';
+    document.getElementById('mic-status').textContent = 'recording...';
+
+  } catch(e) {
+    alert('Microphone access denied. Please allow mic in browser settings.');
+  }
+}
+
+// ═══════════════════════════════════════════════
+// SUBMIT & DIALOG
+// ═══════════════════════════════════════════════
+async function submitAnswer() {
+  const answer = document.getElementById('answer-input').value.trim();
+  if (!answer) return;
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = '...';
+
+  // Add user bubble to dialog
+  addBubble('user', answer);
+  document.getElementById('answer-input').value = '';
+
+  try {
+    const res = await fetch('/api/feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        question: S.currentQ[S.lang] || S.currentQ.en,
+        answer,
+        history: S.dialogHistory,
+        lang: S.lang,
+        role: S.role,
+        questionType: S.currentQ.type,
+        followupCount: S.followupCount,
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      addBubble('coach', '⚠️ ' + (err.error || 'Server error'));
+      return;
+    }
+
+    const fb = await res.json();
+
+    // Save to history
+    S.dialogHistory.push({
+      user: answer,
+      assistant: JSON.stringify(fb)
+    });
+
+    if (fb.mode === 'followup' && S.followupCount < 2) {
+      S.followupCount++;
+      addBubble('coach', null, fb);
+    } else {
+      // Final feedback
+      addBubble('coach', null, fb);
+      showFinalFeedback(fb);
+      markSteps(fb.completedSteps || []);
+    }
+
+  } catch(e) {
+    addBubble('coach', '⚠️ Network error. Please try again.');
+    console.error(e);
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Evaluate';
+  document.getElementById('session').scrollTop = 99999;
+}
+
+function addBubble(who, text, fb) {
+  const wrap = document.getElementById('dialog-wrap');
+  const div = document.createElement('div');
+
+  if (who === 'user') {
+    div.className = 'bubble bubble-user';
+    div.innerHTML = `<div class="bubble-label bubble-label-user">You</div>${escHtml(text)}`;
+  } else {
+    div.className = 'bubble bubble-coach';
+    if (fb && fb.mode === 'followup') {
+      div.innerHTML = `<div class="bubble-label bubble-label-coach">Coach</div><div class="followup-q">${escHtml(fb.followup)}</div>`;
+    } else if (fb) {
+      div.innerHTML = `<div class="bubble-label bubble-label-coach">Coach</div>✅ Good. See final evaluation below.`;
+    } else {
+      div.innerHTML = `<div class="bubble-label bubble-label-coach">Coach</div>${escHtml(text)}`;
+    }
+  }
+  wrap.appendChild(div);
+}
+
+function showFinalFeedback(fb) {
+  const scoreVal = v => {
+    const cls = v >= 8 ? 'val-hi' : v >= 5 ? 'val-mid' : 'val-lo';
+    return `<span class="score-val ${cls}">${v}</span>`;
+  };
+
+  document.getElementById('score-row').innerHTML = `
+    <div class="score-cell"><div class="score-label">Structure</div>${scoreVal(fb.structure)}</div>
+    <div class="score-cell"><div class="score-label">Business</div>${scoreVal(fb.business)}</div>
+    <div class="score-cell"><div class="score-label">Terms</div>${scoreVal(fb.terminology)}</div>
+    <div class="score-cell"><div class="score-label">Loop closed</div><span class="score-val" style="font-size:14px">${fb.closesLoop}</span></div>
+  `;
+
+  document.getElementById('feedback-body').innerHTML = `
+    <div style="margin-bottom:10px"><strong>✅ Strong:</strong> ${escHtml(fb.good)}</div>
+    <div style="margin-bottom:10px"><strong>⚠️ Missing:</strong> ${escHtml(fb.missing)}</div>
+    ${fb.idealAnswer ? `<div class="ideal-box"><div class="ideal-label">Ideal answer outline</div>${escHtml(fb.idealAnswer)}</div>` : ''}
+  `;
+
+  document.getElementById('feedback-wrap').classList.add('show');
+}
+
+function markSteps(completed) {
+  (S.currentQ.steps || []).forEach((s, i) => {
+    const el = document.getElementById('fw-' + i);
+    if (!el) return;
+    if (completed.some(c => c.toLowerCase().includes(s.toLowerCase()))) {
+      el.className = 'fw-step done';
+    }
+  });
+}
+
+function escHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+window.onload = () => {
+  renderCatGrid();
+  updateCounts();
+};
+</script>
+</body>
+</html>
