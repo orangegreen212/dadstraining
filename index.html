@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Interview Trainer — DA & DS</title>
+<title>Interview Trainer — DA & DS & AI</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -17,74 +17,99 @@
 }
 html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.6; overflow: hidden; }
 
-/* ── LAYOUT ── */
+/* LAYOUT */
 .layout { display: grid; grid-template-columns: 220px 1fr; height: 100vh; }
-@media (max-width: 640px) { .layout { grid-template-columns: 1fr; } .sidebar { display: none; } }
 
-/* ── SIDEBAR ── */
+/* SIDEBAR */
 .sidebar { background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; }
 .sidebar-head { padding: 22px 20px 18px; border-bottom: 1px solid var(--border); }
-.logo { font-size: 13px; font-weight: 600; }
-.logo-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.logo { font-size: 13px; font-weight: 600; cursor: pointer; }
+.logo-sub { font-size: 11px; color: var(--text3); margin-top: 2px; cursor: pointer; }
 .nav-group { padding: 14px 12px 0; }
 .nav-label { font-size: 10px; color: var(--text3); text-transform: uppercase; padding: 0 8px; margin-bottom: 5px; letter-spacing: 0.09em; }
 .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: var(--r-sm); cursor: pointer; font-size: 13px; color: var(--text2); transition: 0.15s; }
 .nav-item:hover { background: var(--bg3); color: var(--text); }
 .nav-item.active { background: rgba(108,92,231,0.14); color: var(--accent2); }
 .nav-count { margin-left: auto; font-size: 10px; background: var(--bg4); color: var(--text3); padding: 1px 6px; border-radius: 20px; }
-.role-tag { font-size: 9px; padding: 1px 5px; border-radius: 4px; margin-left: auto; }
-.role-da { background: rgba(0,184,148,0.15); color: var(--green); }
-.role-ds { background: rgba(108,92,231,0.15); color: var(--accent2); }
-.role-both { background: rgba(225,112,85,0.15); color: var(--amber); }
 
-/* ── MAIN ── */
+/* PROGRESS in sidebar */
+.sidebar-progress { padding: 14px 20px; border-top: 1px solid var(--border); margin-top: auto; }
+.prog-title { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+.prog-row { display: flex; justify-content: space-between; font-size: 11px; color: var(--text2); margin-bottom: 4px; }
+.prog-val { color: var(--text); font-weight: 600; }
+.prog-bar-wrap { height: 4px; background: var(--bg3); border-radius: 2px; margin-bottom: 8px; }
+.prog-bar { height: 4px; background: var(--accent); border-radius: 2px; transition: width 0.3s; }
+
+/* MAIN */
 .main { display: flex; flex-direction: column; overflow: hidden; position: relative; }
 
-/* ── START SCREEN ── */
+/* START SCREEN */
 .start-screen { position: absolute; inset: 0; background: var(--bg); z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center; overflow-y: auto; }
 .start-title { font-size: 22px; font-weight: 600; margin-bottom: 6px; }
 .start-sub { font-size: 13px; color: var(--text2); margin-bottom: 24px; }
-
-.role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 380px; margin-bottom: 16px; }
-.role-tile { background: var(--bg2); border: 2px solid var(--border); border-radius: var(--r); padding: 16px; cursor: pointer; text-align: left; transition: 0.15s; }
+.role-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; width: 100%; max-width: 480px; margin-bottom: 16px; }
+.role-tile { background: var(--bg2); border: 2px solid var(--border); border-radius: var(--r); padding: 14px; cursor: pointer; text-align: left; transition: 0.15s; }
 .role-tile:hover { border-color: var(--border2); }
 .role-tile.sel { border-color: var(--accent); background: rgba(108,92,231,0.08); }
-.role-tile-name { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
-.role-tile-desc { font-size: 11px; color: var(--text2); }
-
-.cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; max-width: 380px; margin-bottom: 16px; }
+.role-tile-name { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+.role-tile-desc { font-size: 10px; color: var(--text2); }
+.cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; max-width: 480px; margin-bottom: 16px; }
 .cat-tile { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 10px 12px; cursor: pointer; font-size: 12px; text-align: left; transition: 0.15s; }
 .cat-tile.sel { border-color: var(--accent); background: rgba(108,92,231,0.08); color: var(--accent2); }
-
-.lang-row { display: flex; gap: 8px; margin-bottom: 20px; }
+.lang-row { display: flex; gap: 8px; margin-bottom: 16px; }
 .lang-tile { flex: 1; max-width: 90px; padding: 8px; border: 1px solid var(--border); border-radius: var(--r-sm); cursor: pointer; font-size: 13px; font-weight: 600; text-align: center; transition: 0.15s; background: var(--bg2); color: var(--text2); }
 .lang-tile.sel { border-color: var(--accent); background: rgba(108,92,231,0.08); color: var(--accent2); }
+
+/* MODE SELECTOR */
+.mode-row { display: flex; gap: 8px; margin-bottom: 20px; width: 100%; max-width: 480px; }
+.mode-tile { flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: var(--r-sm); cursor: pointer; font-size: 12px; text-align: center; background: var(--bg2); color: var(--text2); transition: 0.15s; }
+.mode-tile.sel { border-color: var(--accent); color: var(--accent2); background: rgba(108,92,231,0.08); }
+.mode-tile-title { font-weight: 600; margin-bottom: 2px; }
+.mode-tile-desc { font-size: 10px; color: var(--text3); }
+.mode-tile.sel .mode-tile-desc { color: var(--accent2); opacity: 0.7; }
 
 .btn-start { padding: 13px 40px; background: var(--accent); color: #fff; border: none; border-radius: var(--r); font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.15s; }
 .btn-start:hover { background: #5a4bd1; }
 
-/* ── TOPBAR ── */
+/* TOPBAR */
 .topbar { display: flex; align-items: center; padding: 10px 18px; border-bottom: 1px solid var(--border); background: var(--bg2); min-height: 52px; gap: 12px; flex-shrink: 0; }
 .topbar-badge { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
 .badge-da { background: rgba(0,184,148,0.15); color: var(--green); }
 .badge-ds { background: rgba(108,92,231,0.15); color: var(--accent2); }
 .badge-ai { background: rgba(253,203,110,0.15); color: #fdcb6e; }
-.btn-end { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 13px; margin-left: auto; padding: 4px 8px; border-radius: 6px; }
+.topbar-mode { font-size: 11px; color: var(--text3); padding: 3px 8px; border: 1px solid var(--border); border-radius: 20px; }
+
+/* TIMER */
+.timer-wrap { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+.timer-display { font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--text2); min-width: 40px; text-align: right; }
+.timer-display.warn { color: var(--amber); }
+.timer-display.danger { color: var(--red); animation: blink 0.5s infinite; }
+@keyframes blink { 50% { opacity: 0.4; } }
+
+/* MOCK PROGRESS BAR */
+.mock-bar { padding: 8px 16px; background: var(--bg2); border-bottom: 1px solid var(--border); flex-shrink: 0; display: none; }
+.mock-bar.show { display: block; }
+.mock-bar-inner { display: flex; align-items: center; gap: 10px; }
+.mock-progress-text { font-size: 11px; color: var(--text2); min-width: 80px; }
+.mock-progress-track { flex: 1; height: 4px; background: var(--bg3); border-radius: 2px; }
+.mock-progress-fill { height: 4px; background: var(--accent); border-radius: 2px; transition: width 0.3s; }
+
+.btn-end { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 13px; padding: 4px 8px; border-radius: 6px; }
 .btn-end:hover { background: var(--bg3); color: var(--text); }
 
-/* ── SESSION ── */
-.session { flex: 1; overflow-y: auto; padding-bottom: 130px; scroll-behavior: smooth; }
-
+/* SESSION */
+.session { flex: 1; overflow-y: auto; padding-bottom: 160px; scroll-behavior: smooth; }
 .q-card { margin: 14px 16px 0; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 18px; }
 .q-meta { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
 .q-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 3px 9px; border-radius: 20px; background: rgba(108,92,231,0.12); color: var(--accent2); }
+.q-num { font-size: 10px; color: var(--text3); }
 .q-text { font-size: 17px; font-weight: 500; line-height: 1.5; }
 
 .fw-bar { margin: 10px 16px; background: var(--bg2); border: 1px solid var(--border); padding: 12px; border-radius: var(--r); }
 .fw-step { font-size: 11px; padding: 4px 11px; border-radius: 20px; border: 1px solid var(--border); color: var(--text3); margin-right: 5px; display: inline-block; margin-bottom: 5px; }
 .fw-step.done { color: var(--green); background: rgba(0,184,148,0.1); border-color: transparent; }
 
-/* ── DIALOG HISTORY ── */
+/* DIALOG */
 .dialog-wrap { margin: 0 16px; }
 .bubble { padding: 12px 14px; border-radius: var(--r); margin-bottom: 8px; font-size: 13px; line-height: 1.6; }
 .bubble-user { background: rgba(108,92,231,0.1); border: 1px solid rgba(108,92,231,0.2); }
@@ -94,7 +119,7 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 .bubble-label-coach { color: var(--amber); }
 .followup-q { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
 
-/* ── FEEDBACK ── */
+/* FEEDBACK */
 .feedback-wrap { margin: 10px 16px; display: none; }
 .feedback-wrap.show { display: block; }
 .score-row { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--border); background: var(--bg2); border-radius: var(--r) var(--r) 0 0; }
@@ -111,11 +136,33 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 .btn-next { display: block; width: 100%; margin-top: 12px; padding: 12px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r-sm); color: var(--text2); font-size: 13px; font-weight: 600; cursor: pointer; text-align: center; transition: 0.15s; }
 .btn-next:hover { background: var(--bg4); color: var(--text); }
 
-/* ── CONTROLS ── */
+/* MOCK SUMMARY */
+.mock-summary { position: absolute; inset: 0; background: var(--bg); z-index: 200; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 24px; overflow-y: auto; }
+.mock-summary.show { display: flex; }
+.mock-sum-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+.mock-sum-sub { font-size: 13px; color: var(--text2); margin-bottom: 24px; }
+.mock-sum-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; max-width: 440px; margin-bottom: 20px; }
+.mock-sum-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 14px; text-align: center; }
+.mock-sum-val { font-size: 28px; font-weight: 700; }
+.mock-sum-label { font-size: 10px; color: var(--text3); text-transform: uppercase; margin-top: 4px; }
+.mock-weak { width: 100%; max-width: 440px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 16px; margin-bottom: 20px; font-size: 13px; }
+.mock-weak-title { font-size: 10px; text-transform: uppercase; color: var(--text3); margin-bottom: 8px; }
+.mock-weak-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); }
+.mock-weak-item:last-child { border-bottom: none; }
+.btn-again { padding: 12px 32px; background: var(--accent); color: #fff; border: none; border-radius: var(--r); font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 10px; }
+.btn-home { padding: 10px 24px; background: none; border: 1px solid var(--border2); color: var(--text2); border-radius: var(--r); font-size: 13px; cursor: pointer; }
+
+/* CONTROLS */
 .controls { position: absolute; bottom: 0; left: 0; right: 0; padding: 12px 16px; border-top: 1px solid var(--border); background: var(--bg2); }
+#dialog-btns { display: none; gap: 8px; margin-bottom: 10px; }
+#dialog-btns.show { display: flex; }
+.btn-dialog { flex: 1; padding: 9px 12px; border-radius: var(--r-sm); font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid var(--border2); transition: 0.15s; background: var(--bg3); color: var(--text2); }
+#btn-score { border-color: rgba(0,184,148,0.4); color: var(--green); }
+#btn-score:hover { background: rgba(0,184,148,0.1); }
+#btn-more { border-color: rgba(108,92,231,0.4); color: var(--accent2); }
+#btn-more:hover { background: rgba(108,92,231,0.1); }
 .controls-row { display: flex; gap: 10px; align-items: flex-end; }
 .mic-btn { width: 48px; height: 48px; border-radius: 50%; background: var(--bg3); border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: 0.15s; }
-.mic-btn:hover { background: var(--bg4); }
 .mic-btn.recording { border-color: var(--red); background: rgba(214,48,49,0.15); animation: pulse 1.5s infinite; }
 .mic-btn.processing { border-color: var(--amber); background: rgba(225,112,85,0.1); }
 @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(214,48,49,0.4)} 70%{box-shadow:0 0 0 10px rgba(214,48,49,0)} 100%{box-shadow:0 0 0 0 rgba(214,48,49,0)} }
@@ -126,38 +173,26 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 .submit-btn:hover { background: #5a4bd1; }
 .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.divider { font-size: 11px; color: var(--text3); margin: 14px 16px 0; padding-top: 4px; border-top: 1px solid var(--border); }
-
-/* ── DIALOG BUTTONS ── */
-#dialog-btns { display: none; gap: 8px; margin-bottom: 10px; }
-#dialog-btns.show { display: flex; }
-.btn-dialog { flex: 1; padding: 9px 12px; border-radius: var(--r-sm); font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid var(--border2); transition: 0.15s; background: var(--bg3); color: var(--text2); }
-.btn-dialog:hover { background: var(--bg4); color: var(--text); }
-#btn-score { border-color: rgba(0,184,148,0.4); color: var(--green); }
-#btn-score:hover { background: rgba(0,184,148,0.1); }
-#btn-more { border-color: rgba(108,92,231,0.4); color: var(--accent2); }
-#btn-more:hover { background: rgba(108,92,231,0.1); }
-
-/* ── MOBILE ── */
+/* MOBILE */
 @media (max-width: 640px) {
   html, body { overflow: auto; }
   .layout { grid-template-columns: 1fr; height: auto; min-height: 100vh; }
   .sidebar { display: none; }
   .main { height: 100vh; position: relative; }
-  .session { padding-bottom: 160px; }
+  .session { padding-bottom: 170px; }
   .controls { position: fixed; bottom: 0; left: 0; right: 0; padding: 10px 12px; }
   .q-text { font-size: 15px; }
   .score-row { grid-template-columns: repeat(2, 1fr); }
-  .score-cell { padding: 10px 8px; }
   .topbar { padding: 8px 12px; }
   .submit-btn { padding: 0 14px; font-size: 13px; }
   .mic-btn { width: 44px; height: 44px; }
   .answer-input { font-size: 13px; min-height: 44px; }
-  .start-screen { padding: 16px; justify-content: flex-start; padding-top: 40px; }
-  .role-grid { grid-template-columns: 1fr 1fr !important; }
+  .start-screen { padding: 16px; justify-content: flex-start; padding-top: 30px; }
+  .role-grid { grid-template-columns: 1fr 1fr 1fr; }
   .cat-grid { grid-template-columns: repeat(2, 1fr); }
+  .mode-row { flex-direction: column; }
   #dialog-btns.show { flex-direction: column; }
-  .btn-dialog { width: 100%; }
+  .mock-sum-grid { grid-template-columns: repeat(3, 1fr); }
 }
 </style>
 </head>
@@ -167,8 +202,8 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-head">
-      <div class="logo" onclick="endSession()" style="cursor:pointer;" title="Back to start">Interview Trainer</div>
-      <div class="logo-sub" onclick="endSession()" style="cursor:pointer;">DA & DS Edition</div>
+      <div class="logo" onclick="goHome()">Interview Trainer</div>
+      <div class="logo-sub" onclick="goHome()">DA · DS · AI Edition</div>
     </div>
     <div class="nav-group">
       <div class="nav-label">All</div>
@@ -176,24 +211,30 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
     </div>
     <div class="nav-group">
       <div class="nav-label">Data Analyst</div>
-      <div class="nav-item" onclick="navTo('sql')">🗄 SQL / Python <span class="nav-count" id="cnt-sql">0</span></div>
-      <div class="nav-item" onclick="navTo('product')">💡 Product Cases <span class="nav-count" id="cnt-product">0</span></div>
-      <div class="nav-item" onclick="navTo('behavioral')">🎯 Behavioral <span class="nav-count" id="cnt-behavioral">0</span></div>
-      <div class="nav-item" onclick="navTo('term')">📖 Terminology <span class="nav-count" id="cnt-term">0</span></div>
+      <div class="nav-item" onclick="navTo('sql')">🗄 SQL / Python <span class="nav-count" id="cnt-sql">15</span></div>
+      <div class="nav-item" onclick="navTo('product')">💡 Product Cases <span class="nav-count" id="cnt-product">15</span></div>
+      <div class="nav-item" onclick="navTo('behavioral')">🎯 Behavioral <span class="nav-count" id="cnt-behavioral">15</span></div>
+      <div class="nav-item" onclick="navTo('term')">📖 Terminology <span class="nav-count" id="cnt-term">15</span></div>
     </div>
     <div class="nav-group">
       <div class="nav-label">Data Science</div>
-      <div class="nav-item" onclick="navTo('ml')">🤖 ML Concepts <span class="nav-count" id="cnt-ml">0</span></div>
-      <div class="nav-item" onclick="navTo('stats')">📊 Stats & Math <span class="nav-count" id="cnt-stats">0</span></div>
-      <div class="nav-item" onclick="navTo('ds-case')">🧪 DS Cases <span class="nav-count" id="cnt-ds-case">0</span></div>
-      <div class="nav-item" onclick="navTo('ds-term')">📖 DS Terms <span class="nav-count" id="cnt-ds-term">0</span></div>
-      <div class="nav-item" onclick="navTo('behavioral')">🎯 DS Behavioral <span class="nav-count" id="cnt-behavioral">0</span></div>
+      <div class="nav-item" onclick="navTo('ml')">🤖 ML Concepts <span class="nav-count" id="cnt-ml">15</span></div>
+      <div class="nav-item" onclick="navTo('stats')">📊 Stats & Math <span class="nav-count" id="cnt-stats">15</span></div>
+      <div class="nav-item" onclick="navTo('ds-case')">🧪 DS Cases <span class="nav-count" id="cnt-ds-case">15</span></div>
+      <div class="nav-item" onclick="navTo('ds-term')">📖 DS Terms <span class="nav-count" id="cnt-ds-term">15</span></div>
     </div>
     <div class="nav-group">
       <div class="nav-label">AI Engineering</div>
-      <div class="nav-item" onclick="navTo('ai-term')">🤖 AI Terms <span class="nav-count" id="cnt-ai-term">0</span></div>
-      <div class="nav-item" onclick="navTo('ai-design')">🏗 System Design <span class="nav-count" id="cnt-ai-design">0</span></div>
-      <div class="nav-item" onclick="navTo('ai-case')">⚡ AI Cases <span class="nav-count" id="cnt-ai-case">0</span></div>
+      <div class="nav-item" onclick="navTo('ai-term')">🤖 AI Terms <span class="nav-count" id="cnt-ai-term">15</span></div>
+      <div class="nav-item" onclick="navTo('ai-design')">🏗 System Design <span class="nav-count" id="cnt-ai-design">15</span></div>
+      <div class="nav-item" onclick="navTo('ai-case')">⚡ AI Cases <span class="nav-count" id="cnt-ai-case">15</span></div>
+    </div>
+    <div class="sidebar-progress" id="sidebar-progress" style="display:none">
+      <div class="prog-title">Your Progress</div>
+      <div class="prog-row"><span>Sessions</span><span class="prog-val" id="prog-sessions">0</span></div>
+      <div class="prog-row"><span>Avg Score</span><span class="prog-val" id="prog-avg">—</span></div>
+      <div class="prog-row"><span>Questions done</span><span class="prog-val" id="prog-done">0</span></div>
+      <div class="prog-bar-wrap"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
     </div>
   </aside>
 
@@ -203,13 +244,13 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
     <!-- START SCREEN -->
     <div id="start-screen" class="start-screen">
       <div class="start-title">Ready to practice?</div>
-      <div class="start-sub">Choose your role, category, and language</div>
+      <div class="start-sub">Choose role, mode, category and language</div>
 
-      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;align-self:flex-start;max-width:380px;width:100%;">Role</div>
-      <div class="role-grid" style="grid-template-columns:1fr 1fr 1fr;">
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;align-self:flex-start;max-width:480px;width:100%;">Role</div>
+      <div class="role-grid">
         <div class="role-tile sel" id="role-da" onclick="selectRole('da')">
           <div class="role-tile-name">Data Analyst</div>
-          <div class="role-tile-desc">Revenue, Product, SQL, Behavioral</div>
+          <div class="role-tile-desc">Revenue, Product, SQL</div>
         </div>
         <div class="role-tile" id="role-ds" onclick="selectRole('ds')">
           <div class="role-tile-name">Data Scientist</div>
@@ -217,40 +258,89 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
         </div>
         <div class="role-tile" id="role-ai" onclick="selectRole('ai')">
           <div class="role-tile-name">AI Engineer</div>
-          <div class="role-tile-desc">LLMs, RAG, System Design</div>
+          <div class="role-tile-desc">LLMs, RAG, Design</div>
         </div>
       </div>
 
-      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;align-self:flex-start;max-width:380px;width:100%;">Category</div>
-      <div class="cat-grid" id="cat-grid">
-        <!-- filled by JS based on role -->
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;align-self:flex-start;max-width:480px;width:100%;">Mode</div>
+      <div class="mode-row">
+        <div class="mode-tile sel" id="mode-free" onclick="selectMode('free')">
+          <div class="mode-tile-title">🎯 Free Practice</div>
+          <div class="mode-tile-desc">One question at a time</div>
+        </div>
+        <div class="mode-tile" id="mode-mock" onclick="selectMode('mock')">
+          <div class="mode-tile-title">🏆 Mock Interview</div>
+          <div class="mode-tile-desc">5 questions · timed · scored</div>
+        </div>
       </div>
 
-      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;align-self:flex-start;max-width:380px;width:100%;">Language</div>
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;align-self:flex-start;max-width:480px;width:100%;">Category</div>
+      <div class="cat-grid" id="cat-grid"></div>
+
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;align-self:flex-start;max-width:480px;width:100%;">Language</div>
       <div class="lang-row">
         <div class="lang-tile sel" id="lang-en" onclick="selectLang('en')">EN</div>
         <div class="lang-tile" id="lang-uk" onclick="selectLang('uk')">УК</div>
       </div>
 
-      <button class="btn-start" onclick="startSession()">Start Session →</button>
+      <button class="btn-start" onclick="startSession()">Start →</button>
+    </div>
+
+    <!-- MOCK SUMMARY -->
+    <div id="mock-summary" class="mock-summary">
+      <div class="mock-sum-title">🏆 Session Complete!</div>
+      <div class="mock-sum-sub" id="mock-sum-sub">5 questions answered</div>
+      <div class="mock-sum-grid">
+        <div class="mock-sum-card">
+          <div class="mock-sum-val" id="sum-avg" style="color:var(--green)">—</div>
+          <div class="mock-sum-label">Avg Score</div>
+        </div>
+        <div class="mock-sum-card">
+          <div class="mock-sum-val" id="sum-best" style="color:var(--accent2)">—</div>
+          <div class="mock-sum-label">Best</div>
+        </div>
+        <div class="mock-sum-card">
+          <div class="mock-sum-val" id="sum-weak" style="color:var(--amber)">—</div>
+          <div class="mock-sum-label">Weakest</div>
+        </div>
+      </div>
+      <div class="mock-weak">
+        <div class="mock-weak-title">Question breakdown</div>
+        <div id="sum-breakdown"></div>
+      </div>
+      <button class="btn-again" onclick="startSession()">Try Again</button><br>
+      <button class="btn-home" onclick="goHome()">Back to Home</button>
     </div>
 
     <!-- TOPBAR -->
     <div class="topbar">
       <span id="topbar-badge" class="topbar-badge badge-da">DA</span>
       <span id="topbar-cat" style="font-size:13px;color:var(--text2);">All Questions</span>
-      <button class="btn-end" onclick="endSession()">✕ End</button>
+      <span id="topbar-mode" class="topbar-mode" style="display:none">Mock</span>
+      <div class="timer-wrap">
+        <span id="timer-display" class="timer-display" style="display:none">2:00</span>
+      </div>
+      <button class="btn-end" onclick="goHome()">✕ End</button>
     </div>
 
-    <!-- SESSION CONTENT -->
+    <!-- MOCK PROGRESS -->
+    <div class="mock-bar" id="mock-bar">
+      <div class="mock-bar-inner">
+        <span class="mock-progress-text" id="mock-progress-text">Q 1 of 5</span>
+        <div class="mock-progress-track"><div class="mock-progress-fill" id="mock-progress-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <!-- SESSION -->
     <div class="session" id="session">
       <div class="q-card">
         <div class="q-meta">
           <span class="q-badge" id="q-badge">—</span>
+          <span class="q-num" id="q-num"></span>
         </div>
         <div class="q-text" id="q-text">Select a category to start</div>
       </div>
-      <div class="fw-bar" id="fw-bar">
+      <div class="fw-bar">
         <div class="nav-label" id="fw-label">Framework</div>
         <div id="fw-steps"></div>
       </div>
@@ -258,13 +348,13 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
       <div id="feedback-wrap" class="feedback-wrap">
         <div class="score-row" id="score-row"></div>
         <div class="feedback-body" id="feedback-body"></div>
-        <button class="btn-next" onclick="nextQuestion()">→ Next Question</button>
+        <button class="btn-next" id="btn-next" onclick="nextQuestion()">→ Next Question</button>
       </div>
     </div>
 
     <!-- CONTROLS -->
     <div class="controls">
-      <div id="dialog-btns" style="display:none;gap:8px;margin-bottom:10px;display:none;">
+      <div id="dialog-btns">
         <button class="btn-dialog" id="btn-score" onclick="forceScore()">✅ Get Score Now</button>
         <button class="btn-dialog" id="btn-more" onclick="keepDigging()">🔍 More Questions</button>
       </div>
@@ -287,10 +377,9 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 </div>
 
 <script>
-
-// ═══════════════════════════════════════════════
-// QUESTION FILES MAP
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════
+// QUESTION FILES
+// ═══════════════════════════════════════
 const Q_FILES = {
   da: {
     en: ['/questions/da-sql-en.json','/questions/da-product-en.json','/questions/da-behavioral-en.json','/questions/da-term-en.json'],
@@ -306,31 +395,6 @@ const Q_FILES = {
   }
 };
 
-let QUESTIONS = [];
-
-async function loadQuestions(role, lang) {
-  const files = Q_FILES[role]?.[lang] || [];
-  const results = await Promise.allSettled(files.map(f => fetch(f).then(r => r.ok ? r.json() : [])));
-  QUESTIONS = results.flatMap(r => r.status === 'fulfilled' ? r.value : []);
-  updateCounts();
-}
-
-// ═══════════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════════
-const S = {
-  role: 'da',
-  category: 'all',
-  lang: 'en',
-  currentQ: null,
-  dialogHistory: [],
-  followupCount: 0,
-  isRecording: false,
-  mediaRecorder: null,
-  audioChunks: [],
-};
-
-// Category config per role
 const CAT_CONFIG = {
   da: [
     { id:'all', label:'All' },
@@ -355,16 +419,73 @@ const CAT_CONFIG = {
   ]
 };
 
-// ═══════════════════════════════════════════════
+let QUESTIONS = [];
+
+async function loadQuestions(role, lang) {
+  const files = Q_FILES[role]?.[lang] || [];
+  const results = await Promise.allSettled(files.map(f => fetch(f).then(r => r.ok ? r.json() : [])));
+  QUESTIONS = results.flatMap(r => r.status === 'fulfilled' ? r.value : []);
+}
+
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+const S = {
+  role: 'da', category: 'all', lang: 'en', mode: 'free',
+  currentQ: null, dialogHistory: [], followupCount: 0,
+  isRecording: false, mediaRecorder: null, audioChunks: [],
+  // Mock interview
+  mockTotal: 5, mockCurrent: 0, mockScores: [], mockDone: false,
+  // Timer
+  timerInterval: null, timerSeconds: 120,
+};
+
+// ═══════════════════════════════════════
+// LOCALSTORAGE PROGRESS
+// ═══════════════════════════════════════
+function loadProgress() {
+  try {
+    return JSON.parse(localStorage.getItem('it_progress') || '{"sessions":0,"totalScore":0,"totalQ":0,"scoresByType":{}}');
+  } catch { return { sessions: 0, totalScore: 0, totalQ: 0, scoresByType: {} }; }
+}
+
+function saveProgress(avgScore, questionsDone) {
+  const p = loadProgress();
+  p.sessions++;
+  p.totalScore += avgScore;
+  p.totalQ += questionsDone;
+  localStorage.setItem('it_progress', JSON.stringify(p));
+  renderProgress(p);
+}
+
+function renderProgress(p) {
+  if (!p || p.sessions === 0) return;
+  document.getElementById('sidebar-progress').style.display = 'block';
+  document.getElementById('prog-sessions').textContent = p.sessions;
+  document.getElementById('prog-avg').textContent = p.sessions > 0 ? (p.totalScore / p.sessions).toFixed(1) : '—';
+  document.getElementById('prog-done').textContent = p.totalQ;
+  const pct = Math.min(100, (p.totalQ / 50) * 100);
+  document.getElementById('prog-bar').style.width = pct + '%';
+}
+
+// ═══════════════════════════════════════
 // START SCREEN
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════
 function selectRole(r) {
   S.role = r;
-  document.getElementById('role-da').classList.toggle('sel', r === 'da');
-  document.getElementById('role-ds').classList.toggle('sel', r === 'ds');
-  document.getElementById('role-ai').classList.toggle('sel', r === 'ai');
+  ['da','ds','ai'].forEach(x => document.getElementById('role-'+x).classList.toggle('sel', x === r));
   S.category = 'all';
   renderCatGrid();
+}
+
+function selectMode(m) {
+  S.mode = m;
+  ['free','mock'].forEach(x => document.getElementById('mode-'+x).classList.toggle('sel', x === m));
+}
+
+function selectLang(l) {
+  S.lang = l;
+  ['en','uk'].forEach(x => document.getElementById('lang-'+x).classList.toggle('sel', x === l));
 }
 
 function renderCatGrid() {
@@ -383,25 +504,29 @@ function renderCatGrid() {
   });
 }
 
-function selectLang(l) {
-  S.lang = l;
-  document.getElementById('lang-en').classList.toggle('sel', l === 'en');
-  document.getElementById('lang-uk').classList.toggle('sel', l === 'uk');
-}
-
 async function startSession() {
   document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('mock-summary').classList.remove('show');
+
+  // Reset mock state
+  S.mockCurrent = 0; S.mockScores = []; S.mockDone = false;
+
   updateTopbar();
   await loadQuestions(S.role, S.lang);
   loadQuestion();
 }
 
-function endSession() {
+function goHome() {
+  stopTimer();
   document.getElementById('start-screen').style.display = 'flex';
-  S.dialogHistory = [];
-  S.followupCount = 0;
+  document.getElementById('mock-summary').classList.remove('show');
+  document.getElementById('mock-bar').classList.remove('show');
+  document.getElementById('topbar-mode').style.display = 'none';
+  document.getElementById('timer-display').style.display = 'none';
+  S.dialogHistory = []; S.followupCount = 0;
   document.getElementById('dialog-wrap').innerHTML = '';
   document.getElementById('feedback-wrap').classList.remove('show');
+  hideDialogBtns();
 }
 
 function navTo(cat) {
@@ -410,27 +535,66 @@ function navTo(cat) {
   event.currentTarget.classList.add('active');
   document.getElementById('start-screen').style.display = 'none';
   updateTopbar();
-  loadQuestion();
+  if (!QUESTIONS.length) {
+    loadQuestions(S.role, S.lang).then(() => loadQuestion());
+  } else {
+    loadQuestion();
+  }
 }
 
 function updateTopbar() {
   const badge = document.getElementById('topbar-badge');
   badge.textContent = S.role.toUpperCase();
   badge.className = 'topbar-badge ' + (S.role === 'da' ? 'badge-da' : S.role === 'ai' ? 'badge-ai' : 'badge-ds');
-  document.getElementById('topbar-cat').textContent =
-    CAT_CONFIG[S.role].find(c => c.id === S.category)?.label || 'All Questions';
+  document.getElementById('topbar-cat').textContent = CAT_CONFIG[S.role].find(c => c.id === S.category)?.label || 'All Questions';
+
+  const modeEl = document.getElementById('topbar-mode');
+  if (S.mode === 'mock') {
+    modeEl.style.display = 'inline';
+    document.getElementById('mock-bar').classList.add('show');
+  } else {
+    modeEl.style.display = 'none';
+    document.getElementById('mock-bar').classList.remove('show');
+  }
 }
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════
+// TIMER
+// ═══════════════════════════════════════
+function startTimer(seconds) {
+  stopTimer();
+  S.timerSeconds = seconds;
+  const el = document.getElementById('timer-display');
+  el.style.display = 'inline';
+  el.className = 'timer-display';
+
+  function tick() {
+    const m = Math.floor(S.timerSeconds / 60);
+    const s = S.timerSeconds % 60;
+    el.textContent = m + ':' + String(s).padStart(2, '0');
+    if (S.timerSeconds <= 10) el.className = 'timer-display danger';
+    else if (S.timerSeconds <= 30) el.className = 'timer-display warn';
+    if (S.timerSeconds <= 0) {
+      stopTimer();
+      el.textContent = '0:00';
+      return;
+    }
+    S.timerSeconds--;
+  }
+  tick();
+  S.timerInterval = setInterval(tick, 1000);
+}
+
+function stopTimer() {
+  if (S.timerInterval) { clearInterval(S.timerInterval); S.timerInterval = null; }
+  document.getElementById('timer-display').style.display = 'none';
+}
+
+// ═══════════════════════════════════════
 // QUESTIONS
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════
 function getPool() {
-  // questions from files already filtered by role+lang
-  // text field used (from JSON), fallback to en/uk for old inline format
-  let pool = QUESTIONS.map(q => ({
-    ...q,
-    text: q.text || q[S.lang] || q.en || ''
-  }));
+  let pool = QUESTIONS.map(q => ({ ...q, text: q.text || q[S.lang] || q.en || '' }));
   if (S.category !== 'all') pool = pool.filter(q => q.type === S.category);
   return pool;
 }
@@ -438,22 +602,33 @@ function getPool() {
 function loadQuestion() {
   const pool = getPool();
   if (!pool.length) { alert('No questions for this selection'); return; }
+
   S.currentQ = pool[Math.floor(Math.random() * pool.length)];
-  S.dialogHistory = [];
-  S.followupCount = 0;
+  S.dialogHistory = []; S.followupCount = 0;
 
-  // Render question
   document.getElementById('q-badge').textContent = S.currentQ.type.toUpperCase();
-  document.getElementById('q-text').textContent = S.currentQ.text || S.currentQ[S.lang] || S.currentQ.en;
-  document.getElementById('fw-label').textContent = S.currentQ.framework || 'Framework';
+  document.getElementById('q-text').textContent = S.currentQ.text;
 
+  // Mock progress
+  if (S.mode === 'mock') {
+    const qNum = S.mockCurrent + 1;
+    document.getElementById('q-num').textContent = `Q${qNum}/${S.mockTotal}`;
+    document.getElementById('mock-progress-text').textContent = `Q ${qNum} of ${S.mockTotal}`;
+    document.getElementById('mock-progress-fill').style.width = ((S.mockCurrent / S.mockTotal) * 100) + '%';
+    document.getElementById('btn-next').textContent = S.mockCurrent + 1 < S.mockTotal ? '→ Next Question' : '🏆 See Results';
+    startTimer(120);
+  } else {
+    document.getElementById('q-num').textContent = '';
+    document.getElementById('btn-next').textContent = '→ Next Question';
+    if (S.mode === 'free') stopTimer(); // no timer in free mode
+  }
+
+  document.getElementById('fw-label').textContent = S.currentQ.framework || 'Framework';
   const stepsEl = document.getElementById('fw-steps');
   stepsEl.innerHTML = '';
   (S.currentQ.steps || []).forEach((s, i) => {
     const span = document.createElement('span');
-    span.className = 'fw-step';
-    span.id = 'fw-' + i;
-    span.textContent = s;
+    span.className = 'fw-step'; span.id = 'fw-' + i; span.textContent = s;
     stepsEl.appendChild(span);
   });
 
@@ -461,123 +636,106 @@ function loadQuestion() {
   document.getElementById('feedback-wrap').classList.remove('show');
   document.getElementById('answer-input').value = '';
   hideDialogBtns();
-
-  updateCounts();
   document.getElementById('session').scrollTop = 0;
 }
 
-function nextQuestion() { loadQuestion(); }
-
-function updateCounts() {
-  const types = ['sql','product','behavioral','term','ml','stats','ds-case','ds-term','ai-term','ai-design','ai-case'];
-  // Static counts per type (15 per file, shown before session loads)
-  const STATIC = { sql:15, product:15, behavioral:15, term:15, ml:15, stats:15, 'ds-case':15, 'ds-term':15, 'ai-term':15, 'ai-design':15, 'ai-case':15 };
-  const allEl = document.getElementById('cnt-all');
-  if (QUESTIONS.length > 0) {
-    if (allEl) allEl.textContent = QUESTIONS.length;
-    types.forEach(t => {
-      const el = document.getElementById('cnt-' + t);
-      if (el) el.textContent = QUESTIONS.filter(q => q.type === t).length;
-    });
-  } else {
-    // Before session: show static counts for current role
-    const daTypes = ['sql','product','behavioral','term'];
-    const dsTypes = ['ml','stats','ds-case','ds-term','behavioral'];
-    const roleTypes = S.role === 'da' ? daTypes : dsTypes;
-    if (allEl) allEl.textContent = roleTypes.reduce((s,t) => s + (STATIC[t]||0), 0);
-    types.forEach(t => {
-      const el = document.getElementById('cnt-' + t);
-      if (el) el.textContent = STATIC[t] || 0;
-    });
+function nextQuestion() {
+  if (S.mode === 'mock') {
+    S.mockCurrent++;
+    if (S.mockCurrent >= S.mockTotal) {
+      showMockSummary();
+      return;
+    }
   }
+  loadQuestion();
 }
 
-// ═══════════════════════════════════════════════
-// AUDIO — Groq Whisper via MediaRecorder
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════
+// MOCK SUMMARY
+// ═══════════════════════════════════════
+function showMockSummary() {
+  stopTimer();
+  const scores = S.mockScores;
+  if (!scores.length) return;
+
+  const avg = scores.reduce((a, b) => a + b.avg, 0) / scores.length;
+  const best = Math.max(...scores.map(s => s.avg));
+  const worst = Math.min(...scores.map(s => s.avg));
+
+  document.getElementById('sum-avg').textContent = avg.toFixed(1);
+  document.getElementById('sum-best').textContent = best.toFixed(1);
+  document.getElementById('sum-weak').textContent = worst.toFixed(1);
+  document.getElementById('mock-sum-sub').textContent = `${scores.length} questions answered`;
+
+  const breakdown = document.getElementById('sum-breakdown');
+  breakdown.innerHTML = scores.map((s, i) => `
+    <div class="mock-weak-item">
+      <span style="color:var(--text2);font-size:12px">Q${i+1}: ${s.type}</span>
+      <span style="font-weight:600;color:${s.avg >= 7 ? 'var(--green)' : s.avg >= 5 ? 'var(--amber)' : 'var(--red)'}">${s.avg.toFixed(1)}</span>
+    </div>
+  `).join('');
+
+  saveProgress(avg, scores.length);
+
+  document.getElementById('session').style.display = 'none';
+  document.getElementById('mock-bar').classList.remove('show');
+  document.getElementById('mock-summary').classList.add('show');
+}
+
+// ═══════════════════════════════════════
+// AUDIO
+// ═══════════════════════════════════════
 async function toggleMic() {
-  if (S.isRecording) {
-    S.mediaRecorder.stop();
-    return;
-  }
+  if (S.isRecording) { S.mediaRecorder.stop(); return; }
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     S.audioChunks = [];
-
-    // Pick supported mime type
-    const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
-      ? 'audio/webm;codecs=opus'
-      : MediaRecorder.isTypeSupported('audio/webm')
-      ? 'audio/webm'
-      : MediaRecorder.isTypeSupported('audio/ogg;codecs=opus')
-      ? 'audio/ogg;codecs=opus'
-      : '';
-
+    const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus') ? 'audio/webm;codecs=opus'
+      : MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm'
+      : MediaRecorder.isTypeSupported('audio/ogg;codecs=opus') ? 'audio/ogg;codecs=opus' : '';
     S.mediaRecorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
-
     S.mediaRecorder.ondataavailable = e => { if (e.data.size > 0) S.audioChunks.push(e.data); };
-
     S.mediaRecorder.onstop = async () => {
       S.isRecording = false;
       document.getElementById('mic-btn').className = 'mic-btn processing';
       document.getElementById('mic-status').textContent = 'transcribing...';
       stream.getTracks().forEach(t => t.stop());
-
       const actualMime = S.mediaRecorder.mimeType || 'audio/webm';
       const ext = actualMime.includes('ogg') ? 'ogg' : 'webm';
       const blob = new Blob(S.audioChunks, { type: actualMime });
-
       const form = new FormData();
       form.append('file', blob, `audio.${ext}`);
       form.append('model', 'whisper-large-v3');
       form.append('language', S.lang === 'uk' ? 'uk' : 'en');
       form.append('response_format', 'json');
-
       try {
-        // Direct call to Groq — no Vercel function needed
         const res = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${window.GROQ_KEY}` },
           body: form,
         });
-        if (!res.ok) {
-          const err = await res.text();
-          console.error('Whisper error:', err);
-        } else {
-          const data = await res.json();
-          if (data.text) document.getElementById('answer-input').value = data.text;
-        }
-      } catch(e) {
-        console.error('transcribe error', e);
-      }
-
+        if (res.ok) { const d = await res.json(); if (d.text) document.getElementById('answer-input').value = d.text; }
+        else console.error('Whisper error:', await res.text());
+      } catch(e) { console.error('transcribe error', e); }
       document.getElementById('mic-btn').className = 'mic-btn';
       document.getElementById('mic-status').textContent = 'tap to record';
     };
-
     S.mediaRecorder.start();
     S.isRecording = true;
     document.getElementById('mic-btn').className = 'mic-btn recording';
     document.getElementById('mic-status').textContent = 'recording...';
-
-  } catch(e) {
-    alert('Microphone access denied. Please allow mic in browser settings.');
-  }
+  } catch(e) { alert('Microphone access denied. Please allow mic in browser settings.'); }
 }
 
-// ═══════════════════════════════════════════════
-// SUBMIT & DIALOG
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════
+// SUBMIT
+// ═══════════════════════════════════════
 async function submitAnswer() {
   const answer = document.getElementById('answer-input').value.trim();
   if (!answer) return;
-
   const btn = document.getElementById('submit-btn');
-  btn.disabled = true;
-  btn.textContent = '...';
+  btn.disabled = true; btn.textContent = '...';
   hideDialogBtns();
-
-  // Add user bubble to dialog
   addBubble('user', answer);
   document.getElementById('answer-input').value = '';
 
@@ -586,55 +744,41 @@ async function submitAnswer() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        question: S.currentQ.text || S.currentQ[S.lang] || S.currentQ.en,
+        question: S.currentQ.text,
         questionType: S.currentQ.type || 'term',
-        answer,
-        history: S.dialogHistory,
-        lang: S.lang,
-        role: S.role,
+        answer, history: S.dialogHistory,
+        lang: S.lang, role: S.role,
         followupCount: S.followupCount,
         forceScore: S.followupCount >= 99,
       })
     });
-
-    if (!res.ok) {
-      const err = await res.json();
-      addBubble('coach', '⚠️ ' + (err.error || 'Server error'));
-      return;
-    }
-
+    if (!res.ok) { addBubble('coach', '⚠️ ' + ((await res.json()).error || 'Server error')); return; }
     const fb = await res.json();
-
-    // Save to history
-    S.dialogHistory.push({
-      user: answer,
-      assistant: JSON.stringify(fb)
-    });
+    S.dialogHistory.push({ user: answer, assistant: JSON.stringify(fb) });
 
     if (fb.mode === 'followup' && S.followupCount < 2) {
       S.followupCount++;
       addBubble('coach', null, fb);
     } else {
-      // Final feedback
       addBubble('coach', null, fb);
       showFinalFeedback(fb);
       markSteps(fb.completedSteps || []);
+      stopTimer();
+      // Save mock score
+      if (S.mode === 'mock') {
+        const avg = ((fb.structure || 0) + (fb.business || 0) + (fb.terminology || 0)) / 3;
+        S.mockScores.push({ avg, type: S.currentQ.type });
+      }
     }
+  } catch(e) { addBubble('coach', '⚠️ Network error. Please try again.'); console.error(e); }
 
-  } catch(e) {
-    addBubble('coach', '⚠️ Network error. Please try again.');
-    console.error(e);
-  }
-
-  btn.disabled = false;
-  btn.textContent = 'Evaluate';
+  btn.disabled = false; btn.textContent = 'Evaluate';
   document.getElementById('session').scrollTop = 99999;
 }
 
 function addBubble(who, text, fb) {
   const wrap = document.getElementById('dialog-wrap');
   const div = document.createElement('div');
-
   if (who === 'user') {
     div.className = 'bubble bubble-user';
     div.innerHTML = `<div class="bubble-label bubble-label-user">You</div>${escHtml(text)}`;
@@ -642,10 +786,9 @@ function addBubble(who, text, fb) {
     div.className = 'bubble bubble-coach';
     if (fb && fb.mode === 'followup') {
       div.innerHTML = `<div class="bubble-label bubble-label-coach">Coach</div><div class="followup-q">${escHtml(fb.followup)}</div>`;
-      // Show control buttons after coach asks follow-up
       showDialogBtns();
     } else if (fb) {
-      div.innerHTML = `<div class="bubble-label bubble-label-coach">Coach</div>✅ Good. See final evaluation below.`;
+      div.innerHTML = `<div class="bubble-label bubble-label-coach">Coach</div>✅ See final evaluation below.`;
       hideDialogBtns();
     } else {
       div.innerHTML = `<div class="bubble-label bubble-label-coach">Coach</div>${escHtml(text)}`;
@@ -655,34 +798,26 @@ function addBubble(who, text, fb) {
 }
 
 function showFinalFeedback(fb) {
-  const scoreVal = v => {
-    const cls = v >= 8 ? 'val-hi' : v >= 5 ? 'val-mid' : 'val-lo';
-    return `<span class="score-val ${cls}">${v}</span>`;
-  };
-
+  const sv = v => { const c = v>=8?'val-hi':v>=5?'val-mid':'val-lo'; return `<span class="score-val ${c}">${v}</span>`; };
   document.getElementById('score-row').innerHTML = `
-    <div class="score-cell"><div class="score-label">Structure</div>${scoreVal(fb.structure)}</div>
-    <div class="score-cell"><div class="score-label">Business</div>${scoreVal(fb.business)}</div>
-    <div class="score-cell"><div class="score-label">Terms</div>${scoreVal(fb.terminology)}</div>
+    <div class="score-cell"><div class="score-label">Structure</div>${sv(fb.structure)}</div>
+    <div class="score-cell"><div class="score-label">Business</div>${sv(fb.business)}</div>
+    <div class="score-cell"><div class="score-label">Terms</div>${sv(fb.terminology)}</div>
     <div class="score-cell"><div class="score-label">Loop closed</div><span class="score-val" style="font-size:14px">${fb.closesLoop}</span></div>
   `;
-
   document.getElementById('feedback-body').innerHTML = `
     <div style="margin-bottom:10px"><strong>✅ Strong:</strong> ${escHtml(fb.good)}</div>
     <div style="margin-bottom:10px"><strong>⚠️ Missing:</strong> ${escHtml(fb.missing)}</div>
     ${fb.idealAnswer ? `<div class="ideal-box"><div class="ideal-label">Ideal answer outline</div>${escHtml(fb.idealAnswer)}</div>` : ''}
   `;
-
+  document.getElementById('session').style.display = '';
   document.getElementById('feedback-wrap').classList.add('show');
 }
 
 function markSteps(completed) {
   (S.currentQ.steps || []).forEach((s, i) => {
     const el = document.getElementById('fw-' + i);
-    if (!el) return;
-    if (completed.some(c => c.toLowerCase().includes(s.toLowerCase()))) {
-      el.className = 'fw-step done';
-    }
+    if (el && completed.some(c => c.toLowerCase().includes(s.toLowerCase()))) el.className = 'fw-step done';
   });
 }
 
@@ -691,52 +826,50 @@ function escHtml(str) {
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-// ═══════════════════════════════════════════════
-// DIALOG CONTROL BUTTONS
-// ═══════════════════════════════════════════════
-function showDialogBtns() {
-  document.getElementById('dialog-btns').classList.add('show');
-}
+// ═══════════════════════════════════════
+// DIALOG BUTTONS
+// ═══════════════════════════════════════
+function showDialogBtns() { document.getElementById('dialog-btns').classList.add('show'); }
+function hideDialogBtns() { document.getElementById('dialog-btns').classList.remove('show'); }
 
-function hideDialogBtns() {
-  document.getElementById('dialog-btns').classList.remove('show');
-}
-
-// Force final score immediately
 async function forceScore() {
-  const answer = document.getElementById('answer-input').value.trim();
-  const fakeAnswer = answer || '(user requested final score)';
+  const answer = document.getElementById('answer-input').value.trim() || '(user requested final score)';
   hideDialogBtns();
-  S.followupCount = 99; // force final mode
-  document.getElementById('answer-input').value = fakeAnswer;
+  S.followupCount = 99;
+  document.getElementById('answer-input').value = answer;
   await submitAnswer();
 }
 
-// Keep digging — remove follow-up limit
 function keepDigging() {
-  S.followupCount = 0; // reset counter → more follow-ups allowed
+  S.followupCount = 0;
   hideDialogBtns();
   document.getElementById('answer-input').focus();
 }
 
-// ═══════════════════════════════════════════════
-// GROQ KEY — injected via /api/config
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════
+// SIDEBAR COUNTS (static)
+// ═══════════════════════════════════════
+function updateCounts() {
+  const ROLE_TOTALS = { da: 60, ds: 75, ai: 45 };
+  document.getElementById('cnt-all').textContent = ROLE_TOTALS[S.role] || 0;
+}
+
+// ═══════════════════════════════════════
+// GROQ KEY
+// ═══════════════════════════════════════
 window.GROQ_KEY = '';
 (async () => {
-  try {
-    const r = await fetch('/api/config');
-    const d = await r.json();
-    window.GROQ_KEY = d.groqKey || '';
-  } catch(e) { console.warn('config fetch failed', e); }
+  try { const r = await fetch('/api/config'); const d = await r.json(); window.GROQ_KEY = d.groqKey || ''; }
+  catch(e) { console.warn('config fetch failed', e); }
 })();
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════
 // INIT
-// ═══════════════════════════════════════════════
-window.onload = async () => {
+// ═══════════════════════════════════════
+window.onload = () => {
   renderCatGrid();
-  await loadQuestions('da', 'en');
+  updateCounts();
+  renderProgress(loadProgress());
 };
 </script>
 </body>
