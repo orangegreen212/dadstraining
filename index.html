@@ -226,6 +226,32 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 .tts-btn.speaking { color: var(--accent2); animation: tts-pulse 1s infinite; }
 @keyframes tts-pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
+/* FADE-IN ANIMATION */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeInUp 0.3s ease forwards; }
+
+/* RADAR CHART */
+.radar-wrap { margin: 10px 16px 0; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 16px; display: flex; align-items: center; justify-content: center; gap: 24px; flex-wrap: wrap; }
+.radar-legend { display: flex; flex-direction: column; gap: 8px; }
+.radar-leg-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.radar-leg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+/* STUDY MODE */
+.study-card { margin: 14px 16px 0; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+.study-answer { padding: 16px; border-top: 1px solid var(--border); display: none; }
+.study-answer.show { display: block; }
+.study-answer-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--green); margin-bottom: 8px; }
+.study-answer-text { font-size: 13px; line-height: 1.7; color: var(--text2); }
+.study-reveal-btn { display: block; width: 100%; padding: 12px; background: none; border: none; border-top: 1px solid var(--border); color: var(--accent2); font-size: 13px; font-weight: 600; cursor: pointer; text-align: center; transition: 0.15s; }
+.study-reveal-btn:hover { background: rgba(108,92,231,0.06); }
+.study-nav { display: flex; gap: 8px; padding: 12px 16px; }
+.study-nav-btn { flex: 1; padding: 10px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r-sm); color: var(--text2); font-size: 13px; font-weight: 600; cursor: pointer; text-align: center; transition: 0.15s; }
+.study-nav-btn:hover { background: var(--bg4); color: var(--text); }
+.study-progress { font-size: 11px; color: var(--text3); text-align: center; padding: 8px; }
+
 /* MOBILE */
 @media (max-width: 640px) {
   html, body { overflow: auto; }
@@ -312,6 +338,7 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
         <div class="mode-tile sel" id="mode-free" onclick="selectMode('free')"><div class="mode-tile-title">🎯 Free Practice</div><div class="mode-tile-desc">One question at a time</div></div>
         <div class="mode-tile" id="mode-mock" onclick="selectMode('mock')"><div class="mode-tile-title">🏆 Mock Interview</div><div class="mode-tile-desc">5 questions · timed · scored</div></div>
         <div class="mode-tile" id="mode-weak" onclick="selectMode('weak')"><div class="mode-tile-title">🔁 Repeat Weak</div><div class="mode-tile-desc">Score &lt; 6 only</div></div>
+        <div class="mode-tile" id="mode-study" onclick="selectMode('study')"><div class="mode-tile-title">📚 Study Mode</div><div class="mode-tile-desc">Browse Q&amp;A without scoring</div></div>
       </div>
       <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;align-self:flex-start;max-width:480px;width:100%;">Category</div>
       <div class="cat-grid" id="cat-grid"></div>
@@ -391,10 +418,42 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
       <div class="dialog-wrap" id="dialog-wrap"></div>
       <div id="feedback-wrap" class="feedback-wrap">
         <div class="score-row" id="score-row"></div>
+        <div class="radar-wrap" id="radar-wrap" style="display:none">
+          <canvas id="radar-canvas" width="160" height="160"></canvas>
+          <div class="radar-legend" id="radar-legend"></div>
+        </div>
         <div class="feedback-body" id="feedback-body"></div>
         <button class="transcript-btn" onclick="downloadTranscript()">📥 Download Session Transcript</button>
         <button class="btn-next" id="btn-next" onclick="nextQuestion()">→ Next Question</button>
       </div>
+    </div>
+
+    <!-- STUDY MODE PANEL -->
+    <div id="study-panel" style="display:none">
+      <div class="study-card fade-in" id="study-card">
+        <div style="padding:18px">
+          <div class="q-meta">
+            <span class="q-badge" id="study-badge">—</span>
+            <span class="q-level" id="study-level"></span>
+            <span style="margin-left:auto;font-size:11px;color:var(--text3)" id="study-num"></span>
+          </div>
+          <div class="q-text" id="study-q-text">—</div>
+        </div>
+        <button class="study-reveal-btn" id="study-reveal-btn" onclick="toggleStudyAnswer()">👁 Show Ideal Answer</button>
+        <div class="study-answer" id="study-answer">
+          <div class="study-answer-label">Ideal Answer Outline</div>
+          <div class="study-answer-text" id="study-answer-text">—</div>
+          <div style="margin-top:12px">
+            <div class="study-answer-label">Framework Steps</div>
+            <div id="study-steps-text" style="font-size:12px;color:var(--text2);line-height:1.8"></div>
+          </div>
+        </div>
+      </div>
+      <div class="study-nav">
+        <button class="study-nav-btn" onclick="studyPrev()">← Prev</button>
+        <button class="study-nav-btn" onclick="studyNext()">Next →</button>
+      </div>
+      <div class="study-progress" id="study-progress-text"></div>
     </div>
 
     <!-- CONTROLS -->
@@ -613,7 +672,13 @@ async function startSession() {
   document.getElementById('bookmarks-panel').classList.remove('show');
   S.mockCurrent=0; S.mockScores=[]; S.sessionTranscript=[];
   document.getElementById('session').style.display = '';
+  document.getElementById('study-panel').style.display = 'none';
+  document.getElementById('study-panel').style.display = 'none';
   updateTopbar();
+  if (S.mode === 'study') {
+    await startStudyMode();
+    return;
+  }
   await loadQuestions(S.role, S.lang);
   loadQuestion();
 }
@@ -671,6 +736,7 @@ function updateTopbar() {
   const modeEl = document.getElementById('topbar-mode');
   if (S.mode==='mock') { modeEl.style.display='inline'; modeEl.textContent='Mock'; document.getElementById('mock-bar').classList.add('show'); }
   else if (S.mode==='weak') { modeEl.style.display='inline'; modeEl.textContent='Repeat Weak'; document.getElementById('mock-bar').classList.remove('show'); }
+  else if (S.mode==='study') { modeEl.style.display='inline'; modeEl.textContent='Study'; document.getElementById('mock-bar').classList.remove('show'); }
   else { modeEl.style.display='none'; document.getElementById('mock-bar').classList.remove('show'); }
 }
 
@@ -747,11 +813,15 @@ function renderQuestion() {
   });
   document.getElementById('dialog-wrap').innerHTML='';
   document.getElementById('feedback-wrap').classList.remove('show');
+  document.getElementById('radar-wrap').style.display = 'none';
   document.getElementById('answer-input').value='';
   hideDialogBtns();
   updateBookmarkBtn();
   updatePromptInfo(S.currentQ.type);
   startRespTimer();
+  // Fade-in animation on question card
+  const qcard = document.querySelector('.q-card');
+  if (qcard) { qcard.classList.remove('fade-in'); void qcard.offsetWidth; qcard.classList.add('fade-in'); }
   document.getElementById('session').scrollTop=0;
 }
 function nextQuestion() {
@@ -970,6 +1040,8 @@ function showFinalFeedback(fb, timeSpent) {
     <div class="ideal-box"><div class="ideal-label">Ideal answer outline</div>${escHtml(fb.idealAnswer||'—')}</div>
   `;
   document.getElementById('feedback-wrap').classList.add('show');
+  // Draw radar chart
+  drawRadar({ structure: fb.structure, business: fb.business, terminology: fb.terminology });
 }
 
 function markSteps(completed) {
@@ -1036,6 +1108,198 @@ function getRespTime() {
   const m = Math.floor(respTimerSeconds / 60);
   const s = respTimerSeconds % 60;
   return m > 0 ? `${m}m ${s}s` : `${s}s`;
+}
+
+// ═══════════════════════════════════════
+// STUDY MODE
+// ═══════════════════════════════════════
+let studyPool = [];
+let studyIndex = 0;
+let studyAnswerVisible = false;
+
+async function startStudyMode() {
+  await loadQuestions(S.role, S.lang);
+  studyPool = getPool();
+  if (!studyPool.length) { alert('No questions found.'); return; }
+  studyIndex = 0;
+  document.getElementById('session').style.display = 'none';
+  document.getElementById('study-panel').style.display = 'block';
+  document.getElementById('feedback-wrap').classList.remove('show');
+  hideDialogBtns();
+  renderStudyCard();
+}
+
+function renderStudyCard() {
+  if (!studyPool.length) return;
+  const q = studyPool[studyIndex];
+  studyAnswerVisible = false;
+  document.getElementById('study-badge').textContent = q.type.toUpperCase();
+  const lvl = q.level || '';
+  const lvlEl = document.getElementById('study-level');
+  lvlEl.textContent = lvl;
+  lvlEl.className = 'q-level ' + (lvl === 'middle' ? 'level-middle' : lvl === 'junior' ? 'level-junior' : '');
+  document.getElementById('study-q-text').textContent = q.text || q.en || '';
+  document.getElementById('study-num').textContent = `${studyIndex + 1} / ${studyPool.length}`;
+  document.getElementById('study-progress-text').textContent = `${studyIndex + 1} of ${studyPool.length} questions`;
+  document.getElementById('study-answer').classList.remove('show');
+  document.getElementById('study-reveal-btn').textContent = '👁 Show Ideal Answer';
+  // Steps
+  document.getElementById('study-steps-text').innerHTML =
+    (q.steps || []).map(s => `• ${s}`).join('<br>');
+  // Ideal answer — ask LLM only when revealed
+  document.getElementById('study-answer-text').textContent = 'Loading...';
+  // Fade in
+  const card = document.getElementById('study-card');
+  card.classList.remove('fade-in');
+  void card.offsetWidth; // reflow
+  card.classList.add('fade-in');
+}
+
+async function toggleStudyAnswer() {
+  studyAnswerVisible = !studyAnswerVisible;
+  const answerEl = document.getElementById('study-answer');
+  const btn = document.getElementById('study-reveal-btn');
+  if (studyAnswerVisible) {
+    answerEl.classList.add('show');
+    btn.textContent = '🙈 Hide Answer';
+    // Fetch ideal answer from LLM
+    await fetchStudyAnswer();
+  } else {
+    answerEl.classList.remove('show');
+    btn.textContent = '👁 Show Ideal Answer';
+  }
+}
+
+async function fetchStudyAnswer() {
+  const q = studyPool[studyIndex];
+  const el = document.getElementById('study-answer-text');
+  el.textContent = 'Generating ideal answer...';
+  try {
+    const res = await fetch('/api/feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        question: q.text || q.en || '',
+        questionType: q.type || 'term',
+        answer: 'Please provide an ideal answer outline for study purposes.',
+        history: [], lang: S.lang, role: S.role,
+        followupCount: 99, forceScore: true, studyMode: true,
+      })
+    });
+    if (res.ok) {
+      const fb = await res.json();
+      el.textContent = fb.idealAnswer || 'No ideal answer available.';
+    } else {
+      el.textContent = 'Could not load ideal answer.';
+    }
+  } catch(e) {
+    el.textContent = 'Network error.';
+  }
+}
+
+function studyNext() {
+  if (studyIndex < studyPool.length - 1) { studyIndex++; renderStudyCard(); }
+}
+function studyPrev() {
+  if (studyIndex > 0) { studyIndex--; renderStudyCard(); }
+}
+function closeStudyMode() {
+  document.getElementById('study-panel').style.display = 'none';
+  document.getElementById('session').style.display = '';
+}
+
+// ═══════════════════════════════════════
+// RADAR CHART (vanilla Canvas — no libs)
+// ═══════════════════════════════════════
+function drawRadar(scores) {
+  // scores = { structure, business, terminology }
+  const canvas = document.getElementById('radar-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const cx = W / 2, cy = H / 2;
+  const R = Math.min(W, H) / 2 - 20;
+  const labels = ['Structure', 'Business', 'Terms'];
+  const vals = [scores.structure || 0, scores.business || 0, scores.terminology || 0];
+  const max = 10;
+  const n = labels.length;
+  const angleStep = (Math.PI * 2) / n;
+  const startAngle = -Math.PI / 2;
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Grid rings
+  for (let ring = 1; ring <= 5; ring++) {
+    const r = (R * ring) / 5;
+    ctx.beginPath();
+    for (let i = 0; i < n; i++) {
+      const a = startAngle + i * angleStep;
+      const x = cx + r * Math.cos(a);
+      const y = cy + r * Math.sin(a);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  // Axes
+  for (let i = 0; i < n; i++) {
+    const a = startAngle + i * angleStep;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + R * Math.cos(a), cy + R * Math.sin(a));
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+    ctx.stroke();
+  }
+
+  // Data polygon
+  ctx.beginPath();
+  for (let i = 0; i < n; i++) {
+    const a = startAngle + i * angleStep;
+    const r = (R * vals[i]) / max;
+    const x = cx + r * Math.cos(a);
+    const y = cy + r * Math.sin(a);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(108,92,231,0.25)';
+  ctx.fill();
+  ctx.strokeStyle = '#a29bfe';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Dots
+  for (let i = 0; i < n; i++) {
+    const a = startAngle + i * angleStep;
+    const r = (R * vals[i]) / max;
+    ctx.beginPath();
+    ctx.arc(cx + r * Math.cos(a), cy + r * Math.sin(a), 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#a29bfe';
+    ctx.fill();
+  }
+
+  // Labels
+  ctx.font = '11px Inter, sans-serif';
+  ctx.textAlign = 'center';
+  for (let i = 0; i < n; i++) {
+    const a = startAngle + i * angleStep;
+    const lx = cx + (R + 14) * Math.cos(a);
+    const ly = cy + (R + 14) * Math.sin(a);
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.fillText(labels[i], lx, ly + 4);
+  }
+
+  // Legend
+  const colors = ['#a29bfe', '#00b894', '#fdcb6e'];
+  const legendEl = document.getElementById('radar-legend');
+  legendEl.innerHTML = labels.map((l, i) => `
+    <div class="radar-leg-item">
+      <div class="radar-leg-dot" style="background:${colors[i]}"></div>
+      <span style="color:var(--text2)">${l}: <strong style="color:var(--text)">${vals[i]}/10</strong></span>
+    </div>
+  `).join('');
+  document.getElementById('radar-wrap').style.display = 'flex';
 }
 
 // ═══════════════════════════════════════
