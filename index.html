@@ -210,6 +210,22 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 .submit-btn:hover { background: #5a4bd1; }
 .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
+/* PROMPT INFO BAR */
+.prompt-info { margin: 0 16px 0; background: rgba(108,92,231,0.06); border: 1px solid rgba(108,92,231,0.15); border-radius: var(--r-sm); padding: 10px 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.prompt-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--accent2); padding: 3px 8px; border-radius: 20px; background: rgba(108,92,231,0.12); }
+.prompt-name { font-size: 11px; color: var(--text2); }
+.prompt-name strong { color: var(--text); }
+
+/* RESPONSE TIMER */
+.resp-timer { font-size: 11px; color: var(--text3); margin-left: auto; font-variant-numeric: tabular-nums; }
+.resp-timer.active { color: var(--amber); }
+
+/* TTS BUTTON */
+.tts-btn { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 18px; padding: 2px 6px; border-radius: 6px; transition: 0.15s; line-height: 1; }
+.tts-btn:hover { color: var(--accent2); }
+.tts-btn.speaking { color: var(--accent2); animation: tts-pulse 1s infinite; }
+@keyframes tts-pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
 /* MOBILE */
 @media (max-width: 640px) {
   html, body { overflow: auto; }
@@ -362,6 +378,11 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
           <button class="q-bookmark" id="q-bookmark" onclick="toggleBookmark()" title="Bookmark this question">☆</button>
         </div>
         <div class="q-text" id="q-text">Select a category to start</div>
+      </div>
+      <div class="prompt-info" id="prompt-info">
+        <span class="prompt-tag">Prompt</span>
+        <span class="prompt-name" id="prompt-name">—</span>
+        <span class="resp-timer" id="resp-timer" title="Time spent on answer"></span>
       </div>
       <div class="fw-bar">
         <div class="nav-label" id="fw-label">Framework</div>
@@ -708,6 +729,8 @@ function renderQuestion() {
   document.getElementById('answer-input').value='';
   hideDialogBtns();
   updateBookmarkBtn();
+  updatePromptInfo(S.currentQ.type);
+  startRespTimer();
   document.getElementById('session').scrollTop=0;
 }
 function nextQuestion() {
@@ -753,8 +776,14 @@ function downloadTranscript() {
   txt += '='.repeat(50)+'\n\n';
   S.sessionTranscript.forEach((t,i) => {
     txt += `Q${i+1} [${t.type}] ${t.level||''}\n${t.question}\n\n`;
-    txt += `YOUR ANSWER:\n${t.answer}\n\n`;
+    const answers=t.answers||[t.answer||''];
+    if(answers.length===1){
+      txt += `YOUR ANSWER:\n${answers[0]}\n\n`;
+    } else {
+      answers.forEach((a,ai)=>{ txt += `YOUR ANSWER ${ai+1}:\n${a}\n\n`; });
+    }
     if (t.feedback) {
+      if(t.timeSpent) txt += `TIME: ${t.timeSpent}\n`;
       txt += `FEEDBACK:\n✅ Strong: ${t.feedback.good||''}\n⚠️ Missing: ${t.feedback.missing||''}\n`;
       txt += `Scores: Structure ${t.feedback.structure}/10  Business ${t.feedback.business}/10  Terms ${t.feedback.terminology}/10\n`;
       if (t.feedback.idealAnswer) txt += `\nIdeal Answer:\n${t.feedback.idealAnswer}\n`;
@@ -836,13 +865,20 @@ async function submitAnswer() {
       S.followupCount++; addBubble('coach',null,fb);
     } else {
       addBubble('coach',null,fb);
-      showFinalFeedback(fb);
+      const timeSpent = getRespTime();
+      stopRespTimer();
+      showFinalFeedback(fb, timeSpent);
       markSteps(fb.completedSteps||[]);
       stopTimer();
-      // Save transcript entry
+      // Save transcript entry — include full dialog history
+      const allAnswers=S.dialogHistory.map(h=>h.user);
+      if(answer&&!allAnswers.includes(answer)) allAnswers.push(answer);
       S.sessionTranscript.push({
         question:S.currentQ.text, type:S.currentQ.type,
-        level:S.currentQ.level, answer, feedback:fb
+        level:S.currentQ.level,
+        answers:allAnswers,
+        timeSpent:timeSpent||'',
+        feedback:fb
       });
       // Save mock score
       if(S.mode==='mock'){
@@ -885,13 +921,15 @@ function addBubble(who,text,fb) {
   wrap.appendChild(div);
 }
 
-function showFinalFeedback(fb) {
+function showFinalFeedback(fb, timeSpent) {
   const sv=v=>{const c=v>=8?'val-hi':v>=5?'val-mid':'val-lo';return `<span class="score-val ${c}">${v}</span>`;};
+  const timeCell = timeSpent ? `<div class="score-cell"><div class="score-label">Time</div><span class="score-val" style="font-size:14px;color:var(--text2)">${timeSpent}</span></div>` : '';
   document.getElementById('score-row').innerHTML=`
     <div class="score-cell"><div class="score-label">Structure</div>${sv(fb.structure)}</div>
     <div class="score-cell"><div class="score-label">Business</div>${sv(fb.business)}</div>
     <div class="score-cell"><div class="score-label">Terms</div>${sv(fb.terminology)}</div>
     <div class="score-cell"><div class="score-label">Loop closed</div><span class="score-val" style="font-size:14px">${fb.closesLoop}</span></div>
+    ${timeCell}
   `;
   // Steps feedback detail
   const completedSteps=fb.completedSteps||[];
@@ -925,12 +963,72 @@ function escHtml(str) {
 }
 
 // ═══════════════════════════════════════
+// PROMPT INFO
+// ═══════════════════════════════════════
+const PROMPT_NAMES = {
+  'term':       { name: 'Zero-Shot',        desc: 'Direct evaluation, no examples' },
+  'ds-term':    { name: 'Zero-Shot',        desc: 'Direct evaluation, no examples' },
+  'ai-term':    { name: 'Zero-Shot',        desc: 'Direct evaluation, no examples' },
+  'behavioral': { name: 'Few-Shot',         desc: 'Evaluates using STAR examples' },
+  'product':    { name: 'Chain-of-Thought', desc: 'Step-by-step case investigation' },
+  'ai-case':    { name: 'Chain-of-Thought', desc: 'Step-by-step case investigation' },
+  'sql':        { name: 'Role Prompting',   desc: 'Senior engineer perspective' },
+  'ml':         { name: 'Role Prompting',   desc: 'Senior engineer perspective' },
+  'stats':      { name: 'Role Prompting',   desc: 'Senior engineer perspective' },
+  'ds-case':    { name: 'Structured Output','desc': 'ML pipeline dimensions' },
+  'ai-design':  { name: 'Structured Output','desc': 'ML pipeline dimensions' },
+};
+
+function updatePromptInfo(type) {
+  const info = PROMPT_NAMES[type] || { name: 'Zero-Shot', desc: 'Direct evaluation' };
+  document.getElementById('prompt-name').innerHTML =
+    `<strong>${info.name}</strong> — ${info.desc}`;
+}
+
+// ═══════════════════════════════════════
+// RESPONSE TIMER
+// ═══════════════════════════════════════
+let respTimerInterval = null;
+let respTimerSeconds = 0;
+
+function startRespTimer() {
+  stopRespTimer();
+  respTimerSeconds = 0;
+  respTimerInterval = setInterval(() => {
+    respTimerSeconds++;
+    const el = document.getElementById('resp-timer');
+    if (el) {
+      const m = Math.floor(respTimerSeconds / 60);
+      const s = respTimerSeconds % 60;
+      el.textContent = m > 0 ? `${m}m ${s}s` : `${s}s`;
+      el.className = 'resp-timer' + (respTimerSeconds > 60 ? ' active' : '');
+    }
+  }, 1000);
+}
+
+function stopRespTimer() {
+  if (respTimerInterval) { clearInterval(respTimerInterval); respTimerInterval = null; }
+}
+
+function getRespTime() {
+  if (respTimerSeconds === 0) return '';
+  const m = Math.floor(respTimerSeconds / 60);
+  const s = respTimerSeconds % 60;
+  return m > 0 ? `${m}m ${s}s` : `${s}s`;
+}
+
+// ═══════════════════════════════════════
 // DIALOG BUTTONS
 // ═══════════════════════════════════════
 function showDialogBtns(){document.getElementById('dialog-btns').classList.add('show');}
 function hideDialogBtns(){document.getElementById('dialog-btns').classList.remove('show');}
 async function forceScore(){
-  const answer=document.getElementById('answer-input').value.trim()||'(user requested final score)';
+  // Use typed answer if exists, otherwise use last answer from dialog history
+  let answer=document.getElementById('answer-input').value.trim();
+  if(!answer && S.dialogHistory.length>0){
+    answer=S.dialogHistory[S.dialogHistory.length-1].user;
+  }
+  if(!answer) answer='(no answer provided)';
   hideDialogBtns(); S.followupCount=99;
   document.getElementById('answer-input').value=answer;
   await submitAnswer();

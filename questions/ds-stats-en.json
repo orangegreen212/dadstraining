@@ -1,0 +1,377 @@
+[
+  {
+    "id": 401,
+    "role": "ds",
+    "type": "stats",
+    "level": "junior",
+    "lang": "en",
+    "text": "What is a p-value and how do you interpret it?",
+    "framework": "Stats",
+    "steps": [
+      "Intuition",
+      "H0 and H1",
+      "Threshold",
+      "Common mistakes"
+    ]
+  },
+  {
+    "id": 402,
+    "role": "ds",
+    "type": "stats",
+    "level": "junior",
+    "lang": "en",
+    "text": "What is the Central Limit Theorem and why does it matter for data science?",
+    "framework": "Stats",
+    "steps": [
+      "Definition",
+      "Intuition",
+      "Sample size rule",
+      "Applications"
+    ]
+  },
+  {
+    "id": 403,
+    "role": "ds",
+    "type": "stats",
+    "level": "junior",
+    "lang": "en",
+    "text": "What is the difference between Type I and Type II errors?",
+    "framework": "Stats",
+    "steps": [
+      "Type I definition",
+      "Type II definition",
+      "Tradeoff",
+      "Business impact"
+    ]
+  },
+  {
+    "id": 404,
+    "role": "ds",
+    "type": "stats",
+    "level": "junior",
+    "lang": "en",
+    "text": "Explain the difference between correlation and causation. Give an example.",
+    "framework": "Stats",
+    "steps": [
+      "Correlation definition",
+      "Causation definition",
+      "Classic example",
+      "How to establish causation"
+    ]
+  },
+  {
+    "id": 405,
+    "role": "ds",
+    "type": "stats",
+    "level": "junior",
+    "lang": "en",
+    "text": "What is statistical power and how does it affect A/B test design?",
+    "framework": "Stats",
+    "steps": [
+      "Definition",
+      "Effect on sample size",
+      "Power vs significance",
+      "Practical implications"
+    ]
+  },
+  {
+    "id": 406,
+    "role": "ds",
+    "type": "stats",
+    "level": "junior",
+    "lang": "en",
+    "text": "What is the difference between mean, median, and mode? When do you use each?",
+    "framework": "Stats",
+    "steps": [
+      "Definitions",
+      "Outlier sensitivity",
+      "Skewed distributions",
+      "Business examples"
+    ]
+  },
+  {
+    "id": 407,
+    "role": "ds",
+    "type": "stats",
+    "level": "junior",
+    "lang": "en",
+    "text": "What is a confidence interval and how do you interpret it?",
+    "framework": "Stats",
+    "steps": [
+      "Definition",
+      "Construction",
+      "Correct interpretation",
+      "Common misconception"
+    ]
+  },
+  {
+    "id": 408,
+    "role": "ds",
+    "type": "stats",
+    "level": "middle",
+    "lang": "en",
+    "text": "What is Bayes' theorem? Give a practical example.",
+    "framework": "Stats",
+    "steps": [
+      "Formula",
+      "Prior and posterior",
+      "Likelihood",
+      "Business example"
+    ]
+  },
+  {
+    "id": 409,
+    "role": "ds",
+    "type": "stats",
+    "level": "middle",
+    "lang": "en",
+    "text": "What is the difference between parametric and non-parametric tests?",
+    "framework": "Stats",
+    "steps": [
+      "Parametric assumptions",
+      "Non-parametric approach",
+      "Examples of each",
+      "When to choose"
+    ]
+  },
+  {
+    "id": 410,
+    "role": "ds",
+    "type": "stats",
+    "level": "junior",
+    "lang": "en",
+    "text": "What is variance and standard deviation? Why do we need both?",
+    "framework": "Stats",
+    "steps": [
+      "Variance formula",
+      "Std definition",
+      "Interpretability",
+      "Use cases"
+    ]
+  },
+  {
+    "id": 411,
+    "role": "ds",
+    "type": "stats",
+    "level": "middle",
+    "lang": "en",
+    "text": "What is Simpson's Paradox? Give an example where it could mislead business decisions.",
+    "framework": "Stats",
+    "steps": [
+      "Intuition",
+      "Classic example",
+      "Business danger",
+      "How to detect"
+    ]
+  },
+  {
+    "id": 412,
+    "role": "ds",
+    "type": "stats",
+    "level": "junior",
+    "lang": "en",
+    "text": "What is a normal distribution and why is it important in statistics?",
+    "framework": "Stats",
+    "steps": [
+      "Properties",
+      "68-95-99.7 rule",
+      "Why it appears in nature",
+      "Limitations"
+    ]
+  },
+  {
+    "id": 413,
+    "role": "ds",
+    "type": "stats",
+    "level": "middle",
+    "lang": "en",
+    "text": "How do you test if two distributions are significantly different?",
+    "framework": "Stats",
+    "steps": [
+      "Check assumptions",
+      "Choose test (t-test, Mann-Whitney)",
+      "Interpret result",
+      "Effect size"
+    ]
+  },
+  {
+    "id": 414,
+    "role": "ds",
+    "type": "stats",
+    "level": "middle",
+    "lang": "en",
+    "text": "What is multicollinearity and how does it affect regression models?",
+    "framework": "Stats",
+    "steps": [
+      "Definition",
+      "Detection (VIF)",
+      "Effect on coefficients",
+      "Solutions"
+    ]
+  },
+  {
+    "id": 415,
+    "role": "ds",
+    "type": "stats",
+    "level": "junior",
+    "lang": "en",
+    "text": "What is the difference between population and sample? Why does it matter?",
+    "framework": "Stats",
+    "steps": [
+      "Definitions",
+      "Sampling bias",
+      "Sample size",
+      "Inference limits"
+    ]
+  },
+  {
+    "id": 416,
+    "role": "ds",
+    "type": "stats",
+    "level": "junior",
+    "lang": "en",
+    "text": "Explain precision and recall to a non-technical stakeholder using a real-world example.",
+    "framework": "Stats",
+    "steps": [
+      "Plain language definition",
+      "Precision example",
+      "Recall example",
+      "Business tradeoff"
+    ]
+  },
+  {
+    "id": 417,
+    "role": "ds",
+    "type": "stats",
+    "level": "junior",
+    "lang": "en",
+    "text": "In what cases should you use the median instead of the mean?",
+    "framework": "Stats",
+    "steps": [
+      "When mean is misleading",
+      "Skewed distributions",
+      "Outlier examples",
+      "Real-world cases"
+    ]
+  },
+  {
+    "id": 418,
+    "role": "ds",
+    "type": "stats",
+    "level": "middle",
+    "lang": "en",
+    "text": "How do you determine the necessary sample size for an A/B test?",
+    "framework": "Stats",
+    "steps": [
+      "Statistical power",
+      "MDE definition",
+      "Alpha and beta",
+      "Formula and tool"
+    ]
+  },
+  {
+    "id": 419,
+    "role": "ds",
+    "type": "stats",
+    "level": "middle",
+    "lang": "en",
+    "text": "Metrics moved in different directions after a feature launch. How do you interpret the results and decide next steps?",
+    "framework": "Stats",
+    "steps": [
+      "Validate data",
+      "Identify tradeoffs",
+      "Primary vs guardrail",
+      "Decision framework"
+    ]
+  },
+  {
+    "id": 420,
+    "role": "ds",
+    "type": "stats",
+    "level": "middle",
+    "lang": "en",
+    "text": "[Google] A PM claims users spend on average $50/month on Amazon. You sample 100 users. How do you test this hypothesis?",
+    "framework": "Stats",
+    "steps": [
+      "State H0 and H1",
+      "Choose test (t-test)",
+      "Calculate test statistic",
+      "Interpret p-value"
+    ]
+  },
+  {
+    "id": 421,
+    "role": "ds",
+    "type": "stats",
+    "level": "junior",
+    "lang": "en",
+    "text": "What are Z-tests and t-tests? When do you use each?",
+    "framework": "Stats",
+    "steps": [
+      "Z-test definition",
+      "t-test definition",
+      "When to use each",
+      "Assumptions"
+    ]
+  },
+  {
+    "id": 422,
+    "role": "ds",
+    "type": "stats",
+    "level": "middle",
+    "lang": "en",
+    "text": "[Robinhood] They plan to introduce fractional share trading. How would you decide if this is a good idea using data?",
+    "framework": "Experimentation",
+    "steps": [
+      "Define success metric",
+      "User segments",
+      "Experiment design",
+      "Decision criteria"
+    ]
+  },
+  {
+    "id": 423,
+    "role": "ds",
+    "type": "stats",
+    "level": "middle",
+    "lang": "en",
+    "text": "[Meta] You're designing an A/B test to evaluate showing content from non-friends in users' feeds. How do you design it?",
+    "framework": "Experimentation",
+    "steps": [
+      "Define metric",
+      "Randomization unit",
+      "Sample size",
+      "Duration and risks"
+    ]
+  },
+  {
+    "id": 424,
+    "role": "ds",
+    "type": "stats",
+    "level": "junior",
+    "lang": "en",
+    "text": "A discount coupon is sent to N users. The probability of using a coupon is P. What is the probability that at least one coupon is used?",
+    "framework": "Stats",
+    "steps": [
+      "Define the complement",
+      "Apply binomial",
+      "Formula",
+      "Business interpretation"
+    ]
+  },
+  {
+    "id": 425,
+    "role": "ds",
+    "type": "stats",
+    "level": "middle",
+    "lang": "en",
+    "text": "Identify success metrics for a user acquisition campaign, then design an experiment to determine if the campaign should continue.",
+    "framework": "Experimentation",
+    "steps": [
+      "Define primary metric",
+      "Define guardrail metrics",
+      "Experiment design",
+      "Decision criteria"
+    ]
+  }
+]

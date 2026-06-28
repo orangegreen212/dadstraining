@@ -1,17 +1,452 @@
 [
-  { "id": 201, "role": "da", "type": "behavioral", "level": "junior", "lang": "en", "text": "Tell me about a mistake you made in your analysis or reporting.", "framework": "STAR", "steps": ["Situation", "Task", "Action", "Result"] },
-  { "id": 202, "role": "da", "type": "behavioral", "level": "junior", "lang": "en", "text": "Tell me about a time your analysis changed a business decision.", "framework": "STAR", "steps": ["Situation", "Task", "Action", "Result"] },
-  { "id": 203, "role": "da", "type": "behavioral", "level": "junior", "lang": "en", "text": "Describe a disagreement with a stakeholder about data or metrics.", "framework": "STAR", "steps": ["Situation", "Task", "Action", "Result"] },
-  { "id": 204, "role": "da", "type": "behavioral", "level": "junior", "lang": "en", "text": "Tell me about explaining a complex analysis to a non-technical audience.", "framework": "STAR", "steps": ["Situation", "Task", "Action", "Result"] },
-  { "id": 205, "role": "da", "type": "behavioral", "level": "junior", "lang": "en", "text": "What is the project you are most proud of?", "framework": "STAR", "steps": ["Situation", "Task", "Action", "Result"] },
-  { "id": 206, "role": "da", "type": "behavioral", "level": "junior", "lang": "en", "text": "Tell me about a time you had to work with incomplete or dirty data.", "framework": "STAR", "steps": ["Situation", "Task", "Action", "Result"] },
-  { "id": 207, "role": "da", "type": "behavioral", "level": "junior", "lang": "en", "text": "Describe a situation where you had to deliver analysis under a tight deadline.", "framework": "STAR", "steps": ["Situation", "Task", "Action", "Result"] },
-  { "id": 208, "role": "da", "type": "behavioral", "level": "junior", "lang": "en", "text": "Tell me about a time you proactively identified a business problem through data.", "framework": "STAR", "steps": ["Situation", "Task", "Action", "Result"] },
-  { "id": 209, "role": "da", "type": "behavioral", "level": "junior", "lang": "en", "text": "Describe a situation where your analysis was questioned. How did you respond?", "framework": "STAR", "steps": ["Situation", "Task", "Action", "Result"] },
-  { "id": 210, "role": "da", "type": "behavioral", "level": "middle", "lang": "en", "text": "Tell me about a time you influenced a product or business strategy using data.", "framework": "STAR", "steps": ["Situation", "Task", "Action", "Result"] },
-  { "id": 211, "role": "da", "type": "behavioral", "level": "junior", "lang": "en", "text": "How do you prioritize when you have multiple analytics requests at the same time?", "framework": "STAR", "steps": ["Situation", "Task", "Action", "Result"] },
-  { "id": 212, "role": "da", "type": "behavioral", "level": "junior", "lang": "en", "text": "Tell me about a time you automated a repetitive reporting task.", "framework": "STAR", "steps": ["Situation", "Task", "Action", "Result"] },
-  { "id": 213, "role": "da", "type": "behavioral", "level": "middle", "lang": "en", "text": "Describe a situation where you had to push back on a stakeholder request.", "framework": "STAR", "steps": ["Situation", "Task", "Action", "Result"] },
-  { "id": 214, "role": "da", "type": "behavioral", "level": "junior", "lang": "en", "text": "Tell me about a time you learned a new tool or skill quickly for a project.", "framework": "STAR", "steps": ["Situation", "Task", "Action", "Result"] },
-  { "id": 215, "role": "da", "type": "behavioral", "level": "middle", "lang": "en", "text": "Describe a time when two data sources gave conflicting results. How did you resolve it?", "framework": "STAR", "steps": ["Situation", "Task", "Action", "Result"] }
+  {
+    "id": 201,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "Tell me about a mistake you made in your analysis or reporting.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 202,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "Tell me about a time your analysis changed a business decision.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 203,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "Describe a disagreement with a stakeholder about data or metrics.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 204,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "Tell me about explaining a complex analysis to a non-technical audience.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 205,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "What is the project you are most proud of?",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 206,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "Tell me about a time you had to work with incomplete or dirty data.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 207,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "Describe a situation where you had to deliver analysis under a tight deadline.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 208,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "Tell me about a time you proactively identified a business problem through data.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 209,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "Describe a situation where your analysis was questioned. How did you respond?",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 210,
+    "role": "da",
+    "type": "behavioral",
+    "level": "middle",
+    "lang": "en",
+    "text": "Tell me about a time you influenced a product or business strategy using data.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 211,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "How do you prioritize when you have multiple analytics requests at the same time?",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 212,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "Tell me about a time you automated a repetitive reporting task.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 213,
+    "role": "da",
+    "type": "behavioral",
+    "level": "middle",
+    "lang": "en",
+    "text": "Describe a situation where you had to push back on a stakeholder request.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 214,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "Tell me about a time you learned a new tool or skill quickly for a project.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 215,
+    "role": "da",
+    "type": "behavioral",
+    "level": "middle",
+    "lang": "en",
+    "text": "Describe a time when two data sources gave conflicting results. How did you resolve it?",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 216,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "Tell me about a time you convinced someone to change their mind using data.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 217,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "Tell me about a skill you recently learned and how you applied it.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 218,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "Can you provide an example of how you manage conflict in a team?",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 219,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "Tell me about a time when you proposed an idea that was not agreed on.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 220,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "Describe a time when your project failed. What did you learn?",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 221,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "Tell me about a time you received negative feedback and how you handled it.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 222,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "Tell me about a time when you used a specific metric to drive change in your department.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 223,
+    "role": "da",
+    "type": "behavioral",
+    "level": "middle",
+    "lang": "en",
+    "text": "Tell me about a time when you had to balance short-term wins with long-term goals.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 224,
+    "role": "da",
+    "type": "behavioral",
+    "level": "middle",
+    "lang": "en",
+    "text": "Tell me about a time when you had difficulty communicating with key stakeholders and how you aligned with them.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 225,
+    "role": "da",
+    "type": "behavioral",
+    "level": "middle",
+    "lang": "en",
+    "text": "Tell me about an impactful project that you led. What was the outcome?",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 226,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "How do you present insights to non-technical stakeholders? Give an example.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 227,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "Tell me about a time when you were forced to prioritize multiple projects simultaneously.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 228,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "How do you approach personal growth and learning in data analytics?",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 229,
+    "role": "da",
+    "type": "behavioral",
+    "level": "middle",
+    "lang": "en",
+    "text": "How do you encourage collaboration among cross-functional teams?",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  },
+  {
+    "id": 230,
+    "role": "da",
+    "type": "behavioral",
+    "level": "junior",
+    "lang": "en",
+    "text": "Tell me about a time when you were more proactive than others in identifying a data issue.",
+    "framework": "STAR",
+    "steps": [
+      "Situation",
+      "Task",
+      "Action",
+      "Result"
+    ]
+  }
 ]

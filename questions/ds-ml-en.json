@@ -1,0 +1,377 @@
+[
+  {
+    "id": 301,
+    "role": "ds",
+    "type": "ml",
+    "level": "junior",
+    "lang": "en",
+    "text": "What is overfitting and how do you prevent it?",
+    "framework": "ML Concept",
+    "steps": [
+      "Definition",
+      "Causes",
+      "Detection",
+      "Prevention"
+    ]
+  },
+  {
+    "id": 302,
+    "role": "ds",
+    "type": "ml",
+    "level": "junior",
+    "lang": "en",
+    "text": "Explain the bias-variance tradeoff.",
+    "framework": "ML Concept",
+    "steps": [
+      "Intuition",
+      "Bias",
+      "Variance",
+      "Tradeoff in practice"
+    ]
+  },
+  {
+    "id": 303,
+    "role": "ds",
+    "type": "ml",
+    "level": "junior",
+    "lang": "en",
+    "text": "What is the difference between supervised and unsupervised learning? Give examples.",
+    "framework": "ML Concept",
+    "steps": [
+      "Definition",
+      "Supervised examples",
+      "Unsupervised examples",
+      "When to use each"
+    ]
+  },
+  {
+    "id": 304,
+    "role": "ds",
+    "type": "ml",
+    "level": "junior",
+    "lang": "en",
+    "text": "What is cross-validation and why do we use it?",
+    "framework": "ML Concept",
+    "steps": [
+      "Definition",
+      "Types",
+      "Why it matters",
+      "Pitfalls"
+    ]
+  },
+  {
+    "id": 305,
+    "role": "ds",
+    "type": "ml",
+    "level": "junior",
+    "lang": "en",
+    "text": "What is regularization? Explain L1 vs L2.",
+    "framework": "ML Concept",
+    "steps": [
+      "Purpose",
+      "L1 intuition",
+      "L2 intuition",
+      "When to choose each"
+    ]
+  },
+  {
+    "id": 306,
+    "role": "ds",
+    "type": "ml",
+    "level": "junior",
+    "lang": "en",
+    "text": "How does a decision tree work? What are its pros and cons?",
+    "framework": "ML Concept",
+    "steps": [
+      "Splitting logic",
+      "Stopping criteria",
+      "Pros",
+      "Cons"
+    ]
+  },
+  {
+    "id": 307,
+    "role": "ds",
+    "type": "ml",
+    "level": "junior",
+    "lang": "en",
+    "text": "What is a random forest? How does it differ from a single decision tree?",
+    "framework": "ML Concept",
+    "steps": [
+      "Bagging idea",
+      "Feature randomness",
+      "Aggregation",
+      "Advantages"
+    ]
+  },
+  {
+    "id": 308,
+    "role": "ds",
+    "type": "ml",
+    "level": "middle",
+    "lang": "en",
+    "text": "Explain gradient boosting. How does it differ from bagging?",
+    "framework": "ML Concept",
+    "steps": [
+      "Sequential logic",
+      "Residuals",
+      "Learning rate",
+      "vs Bagging"
+    ]
+  },
+  {
+    "id": 309,
+    "role": "ds",
+    "type": "ml",
+    "level": "junior",
+    "lang": "en",
+    "text": "What is the curse of dimensionality?",
+    "framework": "ML Concept",
+    "steps": [
+      "Intuition",
+      "Effect on distance",
+      "Effect on data sparsity",
+      "Solutions"
+    ]
+  },
+  {
+    "id": 310,
+    "role": "ds",
+    "type": "ml",
+    "level": "junior",
+    "lang": "en",
+    "text": "What is feature importance and how do you calculate it in tree-based models?",
+    "framework": "ML Concept",
+    "steps": [
+      "Definition",
+      "Gini importance",
+      "Permutation importance",
+      "SHAP"
+    ]
+  },
+  {
+    "id": 311,
+    "role": "ds",
+    "type": "ml",
+    "level": "junior",
+    "lang": "en",
+    "text": "How do you handle missing values in a dataset?",
+    "framework": "ML Concept",
+    "steps": [
+      "Identify missing type",
+      "Deletion",
+      "Imputation",
+      "Model-based handling"
+    ]
+  },
+  {
+    "id": 312,
+    "role": "ds",
+    "type": "ml",
+    "level": "junior",
+    "lang": "en",
+    "text": "What is data leakage and why is it dangerous?",
+    "framework": "ML Concept",
+    "steps": [
+      "Definition",
+      "Target leakage",
+      "Train-test leakage",
+      "How to prevent"
+    ]
+  },
+  {
+    "id": 313,
+    "role": "ds",
+    "type": "ml",
+    "level": "junior",
+    "lang": "en",
+    "text": "What metrics would you use to evaluate a classification model?",
+    "framework": "ML Concept",
+    "steps": [
+      "Accuracy limit",
+      "Precision/Recall",
+      "F1/AUC-ROC",
+      "Business context"
+    ]
+  },
+  {
+    "id": 314,
+    "role": "ds",
+    "type": "ml",
+    "level": "middle",
+    "lang": "en",
+    "text": "How does k-means clustering work? What are its limitations?",
+    "framework": "ML Concept",
+    "steps": [
+      "Algorithm steps",
+      "Choosing k",
+      "Limitations",
+      "Alternatives"
+    ]
+  },
+  {
+    "id": 315,
+    "role": "ds",
+    "type": "ml",
+    "level": "middle",
+    "lang": "en",
+    "text": "What is the difference between bagging and boosting?",
+    "framework": "ML Concept",
+    "steps": [
+      "Bagging logic",
+      "Boosting logic",
+      "Bias-variance effect",
+      "Use cases"
+    ]
+  },
+  {
+    "id": 316,
+    "role": "ds",
+    "type": "ml",
+    "level": "middle",
+    "lang": "en",
+    "text": "In the transformer architecture, what makes the decoder different from the encoder?",
+    "framework": "ML Concept",
+    "steps": [
+      "Encoder purpose",
+      "Decoder purpose",
+      "Attention differences",
+      "Masked self-attention"
+    ]
+  },
+  {
+    "id": 317,
+    "role": "ds",
+    "type": "ml",
+    "level": "junior",
+    "lang": "en",
+    "text": "What is bootstrapping in Random Forest and why is it important?",
+    "framework": "ML Concept",
+    "steps": [
+      "Bootstrap definition",
+      "Bagging connection",
+      "Variance reduction",
+      "Out-of-bag evaluation"
+    ]
+  },
+  {
+    "id": 318,
+    "role": "ds",
+    "type": "ml",
+    "level": "junior",
+    "lang": "en",
+    "text": "Describe how the split in a decision tree works. What criteria does it use?",
+    "framework": "ML Concept",
+    "steps": [
+      "Gini impurity",
+      "Information gain",
+      "Entropy",
+      "Stopping criteria"
+    ]
+  },
+  {
+    "id": 319,
+    "role": "ds",
+    "type": "ml",
+    "level": "middle",
+    "lang": "en",
+    "text": "How do you deal with interference in time series or predictive models?",
+    "framework": "ML Concept",
+    "steps": [
+      "Define interference",
+      "Seasonality",
+      "Autocorrelation",
+      "Detrending methods"
+    ]
+  },
+  {
+    "id": 320,
+    "role": "ds",
+    "type": "ml",
+    "level": "middle",
+    "lang": "en",
+    "text": "[Stripe] How can Stripe use data to predict the optimal time to retry a failed transaction?",
+    "framework": "ML Pipeline",
+    "steps": [
+      "Define target",
+      "Feature engineering",
+      "Model choice",
+      "Business constraints"
+    ]
+  },
+  {
+    "id": 321,
+    "role": "ds",
+    "type": "ml",
+    "level": "junior",
+    "lang": "en",
+    "text": "What are common problems with linear regression? When does it fail?",
+    "framework": "ML Concept",
+    "steps": [
+      "Linearity assumption",
+      "Multicollinearity",
+      "Heteroscedasticity",
+      "Outlier sensitivity"
+    ]
+  },
+  {
+    "id": 322,
+    "role": "ds",
+    "type": "ml",
+    "level": "middle",
+    "lang": "en",
+    "text": "Explain deep reinforcement learning. What makes it different from supervised learning?",
+    "framework": "ML Concept",
+    "steps": [
+      "Agent and environment",
+      "Reward signal",
+      "Policy learning",
+      "vs Supervised"
+    ]
+  },
+  {
+    "id": 323,
+    "role": "ds",
+    "type": "ml",
+    "level": "junior",
+    "lang": "en",
+    "text": "Implement k-means clustering. Walk me through the algorithm step by step.",
+    "framework": "ML Concept",
+    "steps": [
+      "Initialize centroids",
+      "Assign clusters",
+      "Update centroids",
+      "Convergence criteria"
+    ]
+  },
+  {
+    "id": 324,
+    "role": "ds",
+    "type": "ml",
+    "level": "middle",
+    "lang": "en",
+    "text": "When experimentation is constrained, how do you make decisions using imperfect or historical data?",
+    "framework": "ML Concept",
+    "steps": [
+      "Observational studies",
+      "Difference-in-differences",
+      "Propensity scoring",
+      "Sensitivity analysis"
+    ]
+  },
+  {
+    "id": 325,
+    "role": "ds",
+    "type": "ml",
+    "level": "middle",
+    "lang": "en",
+    "text": "How do you design an experiment to avoid common pitfalls in interpreting A/B test results?",
+    "framework": "Experimentation",
+    "steps": [
+      "Pre-registration",
+      "Randomization check",
+      "Multiple comparisons",
+      "Early stopping risk"
+    ]
+  }
+]

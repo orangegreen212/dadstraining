@@ -1,17 +1,482 @@
 [
-  { "id": 101, "role": "da", "type": "product", "level": "junior", "lang": "en", "text": "Revenue dropped 18% WoW. Traffic is stable. Walk me through your investigation.", "framework": "VDSHV", "steps": ["Validate", "Decompose", "Segment", "Hypothesize", "Validate hyp."] },
-  { "id": 102, "role": "da", "type": "product", "level": "junior", "lang": "en", "text": "Conversion dropped from 5% to 3.8%. No releases reported. What do you do?", "framework": "VDSHV", "steps": ["Validate", "Decompose", "Segment", "Hypothesize", "Validate hyp."] },
-  { "id": 103, "role": "da", "type": "product", "level": "junior", "lang": "en", "text": "Traffic up 30%, revenue flat. Explain what happened.", "framework": "VDSHV", "steps": ["Validate", "Decompose", "Segment", "Hypothesize", "Validate hyp."] },
-  { "id": 104, "role": "da", "type": "product", "level": "junior", "lang": "en", "text": "Monthly churn increased from 4% to 7%. How do you investigate?", "framework": "VDSHV", "steps": ["Validate", "Decompose", "Segment", "Hypothesize", "Validate hyp."] },
-  { "id": 105, "role": "da", "type": "product", "level": "middle", "lang": "en", "text": "Revenue up and churn up after a pricing change. Analyze the trade-off.", "framework": "VDSHV", "steps": ["Validate", "Decompose", "Segment", "Hypothesize", "Validate hyp."] },
-  { "id": 106, "role": "da", "type": "product", "level": "junior", "lang": "en", "text": "DAU dropped 20% over the weekend. How do you diagnose it?", "framework": "VDSHV", "steps": ["Validate", "Decompose", "Segment", "Hypothesize", "Validate hyp."] },
-  { "id": 107, "role": "da", "type": "product", "level": "middle", "lang": "en", "text": "Average session duration increased by 40% but revenue did not change. What could explain this?", "framework": "VDSHV", "steps": ["Validate", "Decompose", "Segment", "Hypothesize", "Validate hyp."] },
-  { "id": 108, "role": "da", "type": "product", "level": "junior", "lang": "en", "text": "How would you design an A/B test for a new checkout flow?", "framework": "Experimentation", "steps": ["Define metric", "Sample size", "Randomization", "Duration", "Decision criteria"] },
-  { "id": 109, "role": "da", "type": "product", "level": "middle", "lang": "en", "text": "Your A/B test shows statistical significance but the business impact is tiny. Do you ship?", "framework": "Experimentation", "steps": ["Validate stats", "Effect size", "Business cost", "Risks", "Recommendation"] },
-  { "id": 110, "role": "da", "type": "product", "level": "junior", "lang": "en", "text": "How would you measure the success of a new onboarding flow?", "framework": "Metrics", "steps": ["Define goal", "Primary metric", "Secondary metrics", "Guardrail metrics", "Timeline"] },
-  { "id": 111, "role": "da", "type": "product", "level": "middle", "lang": "en", "text": "MRR grew 15% but the growth came entirely from price increases. Is this good news?", "framework": "VDSHV", "steps": ["Validate", "Decompose", "Segment", "Hypothesize", "Validate hyp."] },
-  { "id": 112, "role": "da", "type": "product", "level": "junior", "lang": "en", "text": "How would you prioritize which metrics to put on an executive dashboard?", "framework": "Metrics", "steps": ["Audience needs", "Business goals", "Leading vs lagging", "Limit number", "Actionability"] },
-  { "id": 113, "role": "da", "type": "product", "level": "middle", "lang": "en", "text": "Retention cohorts show Month 1 retention improved but Month 6 is unchanged. What does this mean?", "framework": "VDSHV", "steps": ["Validate", "Decompose", "Segment", "Hypothesize", "Validate hyp."] },
-  { "id": 114, "role": "da", "type": "product", "level": "junior", "lang": "en", "text": "How would you analyze which acquisition channel brings the most valuable users?", "framework": "Analysis", "steps": ["Define value", "Choose metric (LTV/retention)", "Segment by channel", "Control for volume", "Recommendation"] },
-  { "id": 115, "role": "da", "type": "product", "level": "middle", "lang": "en", "text": "Support tickets increased 3x after a new release. How do you analyze this?", "framework": "VDSHV", "steps": ["Validate", "Decompose", "Segment", "Hypothesize", "Validate hyp."] }
+  {
+    "id": 101,
+    "role": "da",
+    "type": "product",
+    "level": "junior",
+    "lang": "en",
+    "text": "Revenue dropped 18% WoW. Traffic is stable. Walk me through your investigation.",
+    "framework": "VDSHV",
+    "steps": [
+      "Validate",
+      "Decompose",
+      "Segment",
+      "Hypothesize",
+      "Validate hyp."
+    ]
+  },
+  {
+    "id": 102,
+    "role": "da",
+    "type": "product",
+    "level": "junior",
+    "lang": "en",
+    "text": "Conversion dropped from 5% to 3.8%. No releases reported. What do you do?",
+    "framework": "VDSHV",
+    "steps": [
+      "Validate",
+      "Decompose",
+      "Segment",
+      "Hypothesize",
+      "Validate hyp."
+    ]
+  },
+  {
+    "id": 103,
+    "role": "da",
+    "type": "product",
+    "level": "junior",
+    "lang": "en",
+    "text": "Traffic up 30%, revenue flat. Explain what happened.",
+    "framework": "VDSHV",
+    "steps": [
+      "Validate",
+      "Decompose",
+      "Segment",
+      "Hypothesize",
+      "Validate hyp."
+    ]
+  },
+  {
+    "id": 104,
+    "role": "da",
+    "type": "product",
+    "level": "junior",
+    "lang": "en",
+    "text": "Monthly churn increased from 4% to 7%. How do you investigate?",
+    "framework": "VDSHV",
+    "steps": [
+      "Validate",
+      "Decompose",
+      "Segment",
+      "Hypothesize",
+      "Validate hyp."
+    ]
+  },
+  {
+    "id": 105,
+    "role": "da",
+    "type": "product",
+    "level": "middle",
+    "lang": "en",
+    "text": "Revenue up and churn up after a pricing change. Analyze the trade-off.",
+    "framework": "VDSHV",
+    "steps": [
+      "Validate",
+      "Decompose",
+      "Segment",
+      "Hypothesize",
+      "Validate hyp."
+    ]
+  },
+  {
+    "id": 106,
+    "role": "da",
+    "type": "product",
+    "level": "junior",
+    "lang": "en",
+    "text": "DAU dropped 20% over the weekend. How do you diagnose it?",
+    "framework": "VDSHV",
+    "steps": [
+      "Validate",
+      "Decompose",
+      "Segment",
+      "Hypothesize",
+      "Validate hyp."
+    ]
+  },
+  {
+    "id": 107,
+    "role": "da",
+    "type": "product",
+    "level": "middle",
+    "lang": "en",
+    "text": "Average session duration increased by 40% but revenue did not change. What could explain this?",
+    "framework": "VDSHV",
+    "steps": [
+      "Validate",
+      "Decompose",
+      "Segment",
+      "Hypothesize",
+      "Validate hyp."
+    ]
+  },
+  {
+    "id": 108,
+    "role": "da",
+    "type": "product",
+    "level": "junior",
+    "lang": "en",
+    "text": "How would you design an A/B test for a new checkout flow?",
+    "framework": "Experimentation",
+    "steps": [
+      "Define metric",
+      "Sample size",
+      "Randomization",
+      "Duration",
+      "Decision criteria"
+    ]
+  },
+  {
+    "id": 109,
+    "role": "da",
+    "type": "product",
+    "level": "middle",
+    "lang": "en",
+    "text": "Your A/B test shows statistical significance but the business impact is tiny. Do you ship?",
+    "framework": "Experimentation",
+    "steps": [
+      "Validate stats",
+      "Effect size",
+      "Business cost",
+      "Risks",
+      "Recommendation"
+    ]
+  },
+  {
+    "id": 110,
+    "role": "da",
+    "type": "product",
+    "level": "junior",
+    "lang": "en",
+    "text": "How would you measure the success of a new onboarding flow?",
+    "framework": "Metrics",
+    "steps": [
+      "Define goal",
+      "Primary metric",
+      "Secondary metrics",
+      "Guardrail metrics",
+      "Timeline"
+    ]
+  },
+  {
+    "id": 111,
+    "role": "da",
+    "type": "product",
+    "level": "middle",
+    "lang": "en",
+    "text": "MRR grew 15% but the growth came entirely from price increases. Is this good news?",
+    "framework": "VDSHV",
+    "steps": [
+      "Validate",
+      "Decompose",
+      "Segment",
+      "Hypothesize",
+      "Validate hyp."
+    ]
+  },
+  {
+    "id": 112,
+    "role": "da",
+    "type": "product",
+    "level": "junior",
+    "lang": "en",
+    "text": "How would you prioritize which metrics to put on an executive dashboard?",
+    "framework": "Metrics",
+    "steps": [
+      "Audience needs",
+      "Business goals",
+      "Leading vs lagging",
+      "Limit number",
+      "Actionability"
+    ]
+  },
+  {
+    "id": 113,
+    "role": "da",
+    "type": "product",
+    "level": "middle",
+    "lang": "en",
+    "text": "Retention cohorts show Month 1 retention improved but Month 6 is unchanged. What does this mean?",
+    "framework": "VDSHV",
+    "steps": [
+      "Validate",
+      "Decompose",
+      "Segment",
+      "Hypothesize",
+      "Validate hyp."
+    ]
+  },
+  {
+    "id": 114,
+    "role": "da",
+    "type": "product",
+    "level": "junior",
+    "lang": "en",
+    "text": "How would you analyze which acquisition channel brings the most valuable users?",
+    "framework": "Analysis",
+    "steps": [
+      "Define value",
+      "Choose metric (LTV/retention)",
+      "Segment by channel",
+      "Control for volume",
+      "Recommendation"
+    ]
+  },
+  {
+    "id": 115,
+    "role": "da",
+    "type": "product",
+    "level": "middle",
+    "lang": "en",
+    "text": "Support tickets increased 3x after a new release. How do you analyze this?",
+    "framework": "VDSHV",
+    "steps": [
+      "Validate",
+      "Decompose",
+      "Segment",
+      "Hypothesize",
+      "Validate hyp."
+    ]
+  },
+  {
+    "id": 116,
+    "role": "da",
+    "type": "product",
+    "level": "junior",
+    "lang": "en",
+    "text": "[Meta] There's been a sudden 10% drop in Facebook's daily post views. How would you investigate?",
+    "framework": "VDSHV",
+    "steps": [
+      "Validate",
+      "Decompose",
+      "Segment",
+      "Hypothesize",
+      "Validate hyp."
+    ]
+  },
+  {
+    "id": 117,
+    "role": "da",
+    "type": "product",
+    "level": "junior",
+    "lang": "en",
+    "text": "[Instagram] How would you balance ads and follower posts in the feed and how would you monitor effectiveness?",
+    "framework": "Metrics",
+    "steps": [
+      "Define goal",
+      "Primary metric",
+      "Secondary metrics",
+      "Guardrail metrics",
+      "Timeline"
+    ]
+  },
+  {
+    "id": 118,
+    "role": "da",
+    "type": "product",
+    "level": "junior",
+    "lang": "en",
+    "text": "[TikTok] How would you define success for TikTok? What are the key metrics?",
+    "framework": "Metrics",
+    "steps": [
+      "Define goal",
+      "North Star metric",
+      "Secondary metrics",
+      "Guardrail metrics",
+      "Timeline"
+    ]
+  },
+  {
+    "id": 119,
+    "role": "da",
+    "type": "product",
+    "level": "middle",
+    "lang": "en",
+    "text": "[Netflix] How would you use data to decide whether a TV series is worth renewing?",
+    "framework": "Analysis",
+    "steps": [
+      "Define value",
+      "Engagement metrics",
+      "Retention impact",
+      "Cost vs revenue",
+      "Recommendation"
+    ]
+  },
+  {
+    "id": 120,
+    "role": "da",
+    "type": "product",
+    "level": "junior",
+    "lang": "en",
+    "text": "[Lyft] As a data analyst at Lyft, what dashboard would you build to track the health of the app?",
+    "framework": "Metrics",
+    "steps": [
+      "Define audience",
+      "Core health metrics",
+      "Leading indicators",
+      "Alerts",
+      "Actionability"
+    ]
+  },
+  {
+    "id": 121,
+    "role": "da",
+    "type": "product",
+    "level": "junior",
+    "lang": "en",
+    "text": "[Venmo] Why might Venmo be seeing a decrease in users adding their bank accounts?",
+    "framework": "VDSHV",
+    "steps": [
+      "Validate",
+      "Decompose",
+      "Segment",
+      "Hypothesize",
+      "Validate hyp."
+    ]
+  },
+  {
+    "id": 122,
+    "role": "da",
+    "type": "product",
+    "level": "junior",
+    "lang": "en",
+    "text": "[Instagram] Instagram sees a 5% decrease in Daily Active Users over a week. How do you determine the root cause?",
+    "framework": "VDSHV",
+    "steps": [
+      "Validate",
+      "Decompose",
+      "Segment",
+      "Hypothesize",
+      "Validate hyp."
+    ]
+  },
+  {
+    "id": 123,
+    "role": "da",
+    "type": "product",
+    "level": "middle",
+    "lang": "en",
+    "text": "[Tinder] Tinder subscriptions renew monthly. Explain why different months may have different renewal numbers.",
+    "framework": "Analysis",
+    "steps": [
+      "Seasonality",
+      "Cohort analysis",
+      "External factors",
+      "Product changes",
+      "Recommendation"
+    ]
+  },
+  {
+    "id": 124,
+    "role": "da",
+    "type": "product",
+    "level": "junior",
+    "lang": "en",
+    "text": "You launched a feature and user behavior changed. How do you define success metrics for it?",
+    "framework": "Metrics",
+    "steps": [
+      "Define goal",
+      "Primary metric",
+      "Secondary metrics",
+      "Guardrail metrics",
+      "Timeline"
+    ]
+  },
+  {
+    "id": 125,
+    "role": "da",
+    "type": "product",
+    "level": "middle",
+    "lang": "en",
+    "text": "After launching a new recommendation engine, how would you measure its impact on revenue?",
+    "framework": "Analysis",
+    "steps": [
+      "Define baseline",
+      "Primary metric",
+      "Attribution",
+      "A/B test design",
+      "Business impact"
+    ]
+  },
+  {
+    "id": 126,
+    "role": "da",
+    "type": "product",
+    "level": "junior",
+    "lang": "en",
+    "text": "You're told engagement is flat even though new users are increasing. What questions would you ask?",
+    "framework": "VDSHV",
+    "steps": [
+      "Validate",
+      "Decompose",
+      "Segment",
+      "Hypothesize",
+      "Validate hyp."
+    ]
+  },
+  {
+    "id": 127,
+    "role": "da",
+    "type": "product",
+    "level": "junior",
+    "lang": "en",
+    "text": "The product team reports a decline in 30-day user retention. How would you approach this problem?",
+    "framework": "VDSHV",
+    "steps": [
+      "Validate",
+      "Decompose",
+      "Segment",
+      "Hypothesize",
+      "Validate hyp."
+    ]
+  },
+  {
+    "id": 128,
+    "role": "da",
+    "type": "product",
+    "level": "middle",
+    "lang": "en",
+    "text": "[DoorDash] How would you investigate a week-over-week 10% drop in successful deliveries?",
+    "framework": "VDSHV",
+    "steps": [
+      "Validate",
+      "Decompose",
+      "Segment",
+      "Hypothesize",
+      "Validate hyp."
+    ]
+  },
+  {
+    "id": 129,
+    "role": "da",
+    "type": "product",
+    "level": "junior",
+    "lang": "en",
+    "text": "What factors would you investigate to determine why the app is underperforming in a new geography?",
+    "framework": "VDSHV",
+    "steps": [
+      "Validate",
+      "Decompose",
+      "Segment",
+      "Hypothesize",
+      "Validate hyp."
+    ]
+  },
+  {
+    "id": 130,
+    "role": "da",
+    "type": "product",
+    "level": "middle",
+    "lang": "en",
+    "text": "[Meta] How would you measure engagement for a productivity app? What features or behaviors would you track?",
+    "framework": "Metrics",
+    "steps": [
+      "Define engagement",
+      "Core actions",
+      "Frequency metrics",
+      "Depth metrics",
+      "Business link"
+    ]
+  }
 ]
