@@ -631,6 +631,13 @@ function goHome() {
   document.getElementById('feedback-wrap').classList.remove('show');
   hideDialogBtns();
 }
+// Category → role mapping for sidebar navigation
+const CAT_ROLE = {
+  sql:'da', product:'da', behavioral:'da', term:'da',
+  ml:'ds', stats:'ds', 'ds-case':'ds', 'ds-term':'ds', 'ds-behavioral':'ds',
+  'ai-term':'ai', 'ai-design':'ai', 'ai-case':'ai',
+};
+
 function navTo(cat) {
   closeSidebar();
   S.category = cat;
@@ -638,9 +645,23 @@ function navTo(cat) {
   event.currentTarget.classList.add('active');
   document.getElementById('start-screen').style.display = 'none';
   document.getElementById('bookmarks-panel').classList.remove('show');
+
+  // Auto-switch role based on category
+  const targetRole = CAT_ROLE[cat] || S.role;
+  const roleChanged = targetRole !== S.role;
+  if (roleChanged) {
+    S.role = targetRole;
+    renderCatGrid();
+  }
+
   updateTopbar();
-  if (!QUESTIONS.length) loadQuestions(S.role, S.lang).then(()=>loadQuestion());
-  else loadQuestion();
+
+  // Reload questions if role changed or not loaded yet
+  if (roleChanged || !QUESTIONS.length) {
+    loadQuestions(S.role, S.lang).then(() => loadQuestion());
+  } else {
+    loadQuestion();
+  }
 }
 function updateTopbar() {
   const badge = document.getElementById('topbar-badge');
