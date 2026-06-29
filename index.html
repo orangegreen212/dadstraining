@@ -673,13 +673,12 @@ async function startSession() {
   S.mockCurrent=0; S.mockScores=[]; S.sessionTranscript=[];
   document.getElementById('session').style.display = '';
   document.getElementById('study-panel').style.display = 'none';
-  document.getElementById('study-panel').style.display = 'none';
   updateTopbar();
+  await loadQuestions(S.role, S.lang);
   if (S.mode === 'study') {
     await startStudyMode();
     return;
   }
-  await loadQuestions(S.role, S.lang);
   loadQuestion();
 }
 function goHome() {
@@ -1118,10 +1117,11 @@ let studyIndex = 0;
 let studyAnswerVisible = false;
 
 async function startStudyMode() {
-  await loadQuestions(S.role, S.lang);
+  // Questions already loaded by startSession before this is called
   studyPool = getPool();
-  if (!studyPool.length) { alert('No questions found.'); return; }
+  if (!studyPool.length) { alert('No questions found for this selection.'); return; }
   studyIndex = 0;
+  studyAnswerVisible = false;
   document.getElementById('session').style.display = 'none';
   document.getElementById('study-panel').style.display = 'block';
   document.getElementById('feedback-wrap').classList.remove('show');
@@ -1181,9 +1181,9 @@ async function fetchStudyAnswer() {
       body: JSON.stringify({
         question: q.text || q.en || '',
         questionType: q.type || 'term',
-        answer: 'Please provide an ideal answer outline for study purposes.',
+        answer: 'I am studying this topic. Please provide a comprehensive ideal answer outline that covers all key points a strong candidate should mention.',
         history: [], lang: S.lang, role: S.role,
-        followupCount: 99, forceScore: true, studyMode: true,
+        followupCount: 99, forceScore: true,
       })
     });
     if (res.ok) {
