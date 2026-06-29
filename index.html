@@ -649,7 +649,7 @@ function selectRole(r) {
 }
 function selectMode(m) {
   S.mode = m;
-  ['free','mock','weak'].forEach(x => document.getElementById('mode-'+x).classList.toggle('sel', x===m));
+  ['free','mock','weak','study'].forEach(x => document.getElementById('mode-'+x).classList.toggle('sel', x===m));
 }
 function selectLang(l) {
   S.lang = l;
