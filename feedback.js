@@ -182,7 +182,15 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'Question is required' });
 
   const systemPrompt = getSystemPrompt(questionType);
-  const forceInstruction = forceScore ? '
+
+  // Study mode — override system prompt to just return ideal answer
+  const isStudyMode = forceScore && answer.includes('I am studying this topic');
+  const studyInstruction = isStudyMode ? `
+
+IMPORTANT: This is STUDY MODE. The user wants to learn.
+Set mode="final". In idealAnswer, provide a comprehensive, detailed ideal answer outline (5-8 bullet points) that covers all key points a strong candidate should mention. Make it educational and specific. This is the most important field.` : '';
+
+  const forceInstruction = forceScore && !isStudyMode ? '
 
 IMPORTANT: The user wants final evaluation NOW. Set mode="final" regardless of answer quality.' : '';
 
@@ -217,7 +225,7 @@ IMPORTANT: The user wants final evaluation NOW. Set mode="final" regardless of a
         model: 'llama-3.3-70b-versatile',
         temperature: 0.4,
         max_tokens: 800,
-        messages: [{ role: 'system', content: systemPrompt + forceInstruction }, ...messages],
+        messages: [{ role: 'system', content: systemPrompt + forceInstruction + studyInstruction }, ...messages],
         response_format: { type: 'json_object' },
       }),
     });
